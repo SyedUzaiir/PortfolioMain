@@ -27,24 +27,25 @@ export const projects: Project[] = [
   {
     id: 'luminadb',
     title: 'LuminaDB',
-    description: 'A query interface that allows users to query databases using natural language commands, translating them into executable SQL queries.',
-    image: '/projects/ecommerce.png',
-    github: 'https://github.com/SyedUzaiir/LuminaDB',
+    description: 'An end-to-end full-stack software application built for translating Natural Language (Plain English) inputs directly into executable MongoDB Query Language (MQL) and visualizing datasets in real-time, executing queries locally and safely without external API dependencies.',
+    image: '/projects/luminadb_new.png',
+    github: 'https://github.com/SyedUzaiir/luminai',
+    live: 'https://lumindbai.vercel.app',
     status: 'completed',
-    techStack: ['Java', 'Spring Boot', 'React', 'Next.js', 'PostgreSQL', 'Redis', 'TypeScript'],
+    techStack: ['React', 'Tailwind CSS', 'Recharts', 'Express', 'Node.js', 'FastAPI', 'Python', 'spaCy', 'MongoDB Atlas'],
     featured: true,
     year: '2025',
-    category: 'Backend System',
-    problemSolved: 'Non-technical stakeholders frequently rely on engineers to fetch basic operational metrics, introducing delays and repetitive queries.',
+    category: 'NLP / Full Stack',
+    problemSolved: 'Non-technical stakeholders frequently rely on developers to fetch basic metrics or build database queries. LuminaDB allows users to query databases using plain English without needing technical MQL knowledge or paid API keys.',
     keyFeatures: [
-      'Natural Language to SQL translator pipeline',
-      'Schema discovery and mapping mechanisms',
-      'SQL validator and execution sandbox environment',
-      'Cached results for recurrent query paths'
+      'Natural Language to MQL translation using spaCy syntactic analysis and token lemmatization',
+      'Local, offline natural language parsing service without paid LLM dependencies',
+      'AI Loading Simulator and real-time MQL typewriter code execution sandbox',
+      'Adaptive data visualizer charts and service wake-status polling engine for Render server instances'
     ],
-    architecture: 'Built using Spring Boot APIs and custom prompt templates integrated with Google Gemini API, combined with a Next.js responsive schema visualizer.',
-    challenges: 'Protecting the target database from destructive queries. Solved by executing queries inside read-only transactional connections with restricted privileges.',
-    futureImprovements: ['Add multi-database schema synchronization', 'Generate charts from query results']
+    architecture: 'A decoupled microservice system where FastAPI handles local NLP translation using spaCy, Node.js/Express acts as the secure query orchestrator validating MQL schema bounds, and React/Tailwind CSS renders real-time visual dashboards.',
+    challenges: 'Render free tier containers sleep after periods of inactivity, causing initial query timeouts. Solved by integrating a frontend system wake-status polling engine that pings and wakes backend services on-demand.',
+    futureImprovements: ['Add support for multi-collection aggregation pipeline generations', 'Integrate automated schema discovery and indexing recommendations']
   },
   {
     id: 'biosense-ai',
