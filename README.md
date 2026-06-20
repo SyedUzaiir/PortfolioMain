@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Syed Uzair Mohiuddin — Portfolio V3 Foundation
 
-## Getting Started
+A premium, production-ready developer portfolio architecture designed like a high-end SaaS application. Built with Next.js 15, React 19, Tailwind CSS v4, and Framer Motion.
 
-First, run the development server:
+## 🚀 Tech Stack & Design Tokens
+- **Core Framework**: Next.js 15 (App Router, Turbopack) & React 19
+- **Style Engine**: Tailwind CSS v4 (with custom `@theme` variables for premium dark-default aesthetics)
+- **Animations**: Framer Motion & Lenis smooth scrolling integration
+- **Validation**: Zod (contact form type schemas)
+- **Component Patterns**: Custom glassmorphism overlays, spotlight mouse tracking, text reveal effects, magnetic spring controls, and dynamic counters.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📁 Architectural Layout
+
+```
+├── app/
+│   ├── layout.tsx         # Providers (Theme, Scroll), global Navbar & Footer, JSON-LD
+│   ├── page.tsx           # Main Landing Page / Hero
+│   ├── loading.tsx        # Dynamic page load suspense spinner
+│   ├── not-found.tsx      # Custom animated 404 error page
+│   ├── sitemap.ts         # Dynamically generated search sitemaps
+│   ├── robots.ts          # Search engine optimization indexing rules
+│   └── manifest.ts        # Progressive Web Application (PWA) configuration
+├── components/
+│   ├── layout/            # Section grids, sticky blur Navbar, structured brand Footer
+│   ├── motion/            # Magnetic animations, scroll reveals, spotlight cursors
+│   ├── shared/            # SEO helpers (JSON-LD), global loaders, command palette
+│   └── ui/
+│       ├── buttons/       # Magnetic action buttons, custom SVG SocialButton
+│       ├── cards/         # GlassCard, ProjectCard, ExperienceCard, SkillCard, StatCard
+│       └── shared/        # SectionHeading, GradientText, AnimatedCounter, ProgressBar
+├── hooks/                 # useScrollPosition, useActiveSection, useCounter, useMagnetic, useWindowSize
+├── lib/                   # Easing presets, API statistics fetch layer
+├── data/                  # Typed static collections (skills, projects, timeline data)
+└── types/                 # Strict TypeScript schemas & Zod form interfaces
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Key Architectural Implementations
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Raycast-inspired Command Palette (`Ctrl + K` or `⌘K`)
+Pressing `Ctrl + K` toggles a system-wide dialog menu that enables:
+- Seamless page & section navigation (Hero, About, Projects, Experience, Skills, Contact).
+- Immediate system color scheme transitions (Light / Dark mode).
+- Immediate access to developer resumes or external links (GitHub, LinkedIn, LeetCode).
 
-## Learn More
+### 2. Custom Motion System & Hooks
+- `useScrollPosition`: Tracks viewport offset values.
+- `useActiveSection`: Monitors user scroll section targets via an `IntersectionObserver`.
+- `useCounter`: Increments statistical elements.
+- `useMagnetic`: Calculates physical magnetism ranges around cursor actions.
+- `useWindowSize`: Resizes responsive bounds dynamically.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Modular API Service Layer (`lib/services/api.ts`)
+Queries the public REST & GraphQL interfaces of GitHub and LeetCode. Implements:
+- 1-hour caching bounds (`next: { revalidate: 3600 }`).
+- Robust error fallbacks to guarantee uptime and fast page speeds.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💻 Development & Verification
 
-## Deploy on Vercel
+To run the development server:
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To compile a production build and run TypeScript / ESLint checks:
+```bash
+npm run build
+```
