@@ -11,8 +11,8 @@ export const useCounter = (target: number, duration = 1500, trigger = true) => {
     let start = 0
     const end = target
     if (start === end) {
-      setCount(end)
-      return
+      const frame = requestAnimationFrame(() => setCount(end))
+      return () => cancelAnimationFrame(frame)
     }
 
     const totalMs = duration

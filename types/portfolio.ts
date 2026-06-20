@@ -55,6 +55,9 @@ export interface Certificate {
   issueDate: string
   credentialUrl?: string
   badgeImage?: string
+  credentialId?: string
+  skills?: string[]
+  category?: string
 }
 
 export interface Achievement {
