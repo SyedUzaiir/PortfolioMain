@@ -49,7 +49,7 @@ export const Dashboard: React.FC = () => {
       try {
         const [gh, lc] = await Promise.all([
           getGitHubStats('SyedUzaiir'),
-          getLeetCodeStats('SyedUzaiir')
+          getLeetCodeStats('uzairmohiuddin')
         ])
         setGhStats(gh)
         setLcStats(lc)
