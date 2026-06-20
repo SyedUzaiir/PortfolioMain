@@ -53,8 +53,9 @@ export const Footer: React.FC = () => {
     { label: 'GitHub', href: 'https://github.com/SyedUzaiir' },
     { label: 'LeetCode', href: 'https://leetcode.com/uzairmohiuddin/' },
     { label: 'CodeChef', href: 'https://www.codechef.com/users/uzair_777' },
-    { label: 'HackerRank', href: 'https://www.hackerrank.com' },
-    { label: 'GeeksforGeeks', href: 'https://www.geeksforgeeks.org' }
+    { label: 'Codeforces', href: 'https://codeforces.com/profile/UzairMohiuddin' },
+    { label: 'HackerRank', href: 'https://www.hackerrank.com/profile/uzairmohiuddin' },
+    { label: 'GeeksforGeeks', href: 'https://www.geeksforgeeks.org/user/uzairmohiuddin' }
   ]
 
   return (

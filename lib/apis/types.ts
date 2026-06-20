@@ -66,6 +66,16 @@ export interface GeeksForGeeksStats {
   instituteRank: number
 }
 
+export interface CodeforcesStats {
+  status: 'success' | 'error'
+  handle: string
+  rating: number
+  maxRating: number
+  rank: string
+  maxRank: string
+  contribution: number
+}
+
 export interface CombinedCodingStats {
   totalSolved: number
   platformsCount: number

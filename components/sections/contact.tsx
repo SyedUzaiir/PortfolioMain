@@ -126,8 +126,8 @@ export const Contact: React.FC = () => {
           <ScrollReveal variant="fade-up" className="space-y-3.5">
             <div className="flex items-center space-x-3 text-xs font-light text-muted-foreground">
               <Mail className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
-              <a href="mailto:syeduzairmohiuddin@gmail.com" className="hover:text-foreground hover:underline transition-colors font-mono">
-                syeduzairmohiuddin@gmail.com
+              <a href="mailto:syeduzairmohiuddin33@gmail.com" className="hover:text-foreground hover:underline transition-colors font-mono">
+                syeduzairmohiuddin33@gmail.com
               </a>
             </div>
             <div className="flex items-center space-x-3 text-xs font-light text-muted-foreground">

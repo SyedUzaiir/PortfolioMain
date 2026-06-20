@@ -7,7 +7,7 @@ import { ProgressBar } from '@/components/ui/shared/progress-bar'
 import { AnimatedCounter } from '@/components/ui/shared/animated-counter'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
 import { RefreshCw, ExternalLink } from 'lucide-react'
-import { GitHubStats, LeetCodeStats, CodeChefStats, HackerRankStats, GeeksForGeeksStats } from '@/lib/apis/types'
+import { GitHubStats, LeetCodeStats, CodeChefStats, HackerRankStats, GeeksForGeeksStats, CodeforcesStats } from '@/lib/apis/types'
 
 const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -50,12 +50,33 @@ const fallbackContributionDays = (() => {
   })
 })()
 
+const getCfRankColor = (rank: string) => {
+  const r = rank.toLowerCase()
+  if (r.includes('newbie')) return 'text-slate-500'
+  if (r.includes('pupil')) return 'text-emerald-500'
+  if (r.includes('specialist')) return 'text-cyan-500 dark:text-cyan-400'
+  if (r.includes('expert')) return 'text-blue-500 dark:text-blue-400'
+  if (r.includes('candidate')) return 'text-violet-500 dark:text-violet-400'
+  if (r.includes('master') || r.includes('grandmaster')) return 'text-rose-500 dark:text-rose-400'
+  return 'text-foreground'
+}
+
+const getCfNextMilestone = (rating: number) => {
+  if (rating < 1200) return { next: 1200, rank: 'Pupil', prev: 0 }
+  if (rating < 1400) return { next: 1400, rank: 'Specialist', prev: 1200 }
+  if (rating < 1600) return { next: 1600, rank: 'Expert', prev: 1400 }
+  if (rating < 1900) return { next: 1900, rank: 'Candidate Master', prev: 1600 }
+  if (rating < 2200) return { next: 2200, rank: 'Master', prev: 1900 }
+  return { next: 3000, rank: 'Legendary Grandmaster', prev: 2200 }
+}
+
 export const Dashboard: React.FC = () => {
   const [ghStats, setGhStats] = useState<GitHubStats | null>(null)
   const [lcStats, setLcStats] = useState<LeetCodeStats | null>(null)
   const [ccStats, setCcStats] = useState<CodeChefStats | null>(null)
   const [hrStats, setHrStats] = useState<HackerRankStats | null>(null)
   const [gfgStats, setGfgStats] = useState<GeeksForGeeksStats | null>(null)
+  const [cfStats, setCfStats] = useState<CodeforcesStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -63,20 +84,22 @@ export const Dashboard: React.FC = () => {
     const fetchStats = async () => {
       setLoading(true)
       try {
-        const [ghRes, lcRes, ccRes, hrRes, gfgRes] = await Promise.all([
+        const [ghRes, lcRes, ccRes, hrRes, gfgRes, cfRes] = await Promise.all([
           fetch('/api/github?username=SyedUzaiir'),
           fetch('/api/leetcode?username=uzairmohiuddin'),
           fetch('/api/codechef?username=uzair_777'),
           fetch('/api/hackerrank?username=uzairmohiuddin'),
-          fetch('/api/gfg?username=uzairmohiuddin')
+          fetch('/api/gfg?username=uzairmohiuddin'),
+          fetch('/api/codeforces?handle=UzairMohiuddin')
         ])
 
-        const [gh, lc, cc, hr, gfg] = await Promise.all([
+        const [gh, lc, cc, hr, gfg, cf] = await Promise.all([
           ghRes.ok ? ghRes.json() : null,
           lcRes.ok ? lcRes.json() : null,
           ccRes.ok ? ccRes.json() : null,
           hrRes.ok ? hrRes.json() : null,
-          gfgRes.ok ? gfgRes.json() : null
+          gfgRes.ok ? gfgRes.json() : null,
+          cfRes.ok ? cfRes.json() : null
         ])
 
         if (gh) setGhStats(gh)
@@ -84,6 +107,7 @@ export const Dashboard: React.FC = () => {
         if (cc) setCcStats(cc)
         if (hr) setHrStats(hr)
         if (gfg) setGfgStats(gfg)
+        if (cf) setCfStats(cf)
       } catch (err) {
         console.error('Error fetching dashboard stats:', err)
       } finally {
@@ -107,11 +131,16 @@ export const Dashboard: React.FC = () => {
     ? Math.min(Math.round((ccStats.currentRating / 2000) * 100), 100)
     : 65
 
+  // Calculate Codeforces progress
+  const cfRating = cfStats?.rating || 1204
+  const cfMilestone = getCfNextMilestone(cfRating)
+  const cfProgress = Math.min(Math.round(((cfRating - cfMilestone.prev) / (cfMilestone.next - cfMilestone.prev)) * 100), 100)
+
   return (
     <Section
       id="dashboard"
-      title="CP & Git Dashboard"
-      subtitle="Engineering Metrics"
+      title="Coding Profiles"
+      subtitle="A live overview of my competitive programming progress, GitHub activity, and engineering metrics."
       className="py-20 border-t border-border/30 section-alt"
     >
       {/* Overview Aggregation Header */}
@@ -424,8 +453,8 @@ export const Dashboard: React.FC = () => {
           </GlassCard>
         </ScrollReveal>
 
-        {/* HackerRank & GFG */}
-        <ScrollReveal variant="fade-up" delay={0.2} className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        {/* HackerRank, GFG & Codeforces */}
+        <ScrollReveal variant="fade-up" delay={0.2} className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           {/* HackerRank */}
           <GlassCard className="p-5 flex flex-col justify-between h-full">
             <div>
@@ -506,7 +535,73 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="mt-6 pt-3.5 border-t border-border/40 flex justify-between items-center text-[10px] font-mono">
               <span className="text-muted-foreground/50">@uzairmohiuddin</span>
-              <a href="https://www.geeksforgeeks.org/profile/uzairmohiuddin" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:underline flex items-center gap-0.5">
+              <a href="https://www.geeksforgeeks.org/user/uzairmohiuddin" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:underline flex items-center gap-0.5">
+                profile <ExternalLink className="h-2.5 w-2.5" />
+              </a>
+            </div>
+          </GlassCard>
+
+          {/* Codeforces */}
+          <GlassCard className="p-5 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex justify-between items-center border-b border-border/40 pb-2.5">
+                <div className="flex items-center space-x-2">
+                  <span className="h-4.5 w-4.5 bg-blue-500/10 text-blue-500 rounded flex items-center justify-center text-[9px] font-black font-mono">CF</span>
+                  <h4 className="text-xs font-bold text-foreground">Codeforces</h4>
+                </div>
+                <span className="text-[9px] font-mono text-blue-400">Rating & Rank</span>
+              </div>
+
+              {loading && !cfStats ? (
+                <div className="mt-3.5 space-y-2 animate-pulse">
+                  <div className="h-3 bg-muted/20 rounded w-full"></div>
+                  <div className="h-3 bg-muted/20 rounded w-5/6"></div>
+                  <div className="h-3 bg-muted/20 rounded w-4/6"></div>
+                </div>
+              ) : (
+                <div className="mt-4 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground font-light">Rating Rank</span>
+                    <span className={`inline-flex items-center space-x-1.5 font-mono text-xs font-bold ${getCfRankColor(cfStats?.rank || 'pupil')}`}>
+                      <span>{cfStats?.rating || 1204}</span>
+                      <span className="text-[8px] bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                        {cfStats?.rank || 'pupil'}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
+                      <span>Next Rank: {cfMilestone.rank}</span>
+                      <span>{cfRating} / {cfMilestone.next}</span>
+                    </div>
+                    <ProgressBar value={cfProgress} className="bg-blue-500/10 [&>div]:bg-blue-500" />
+                  </div>
+
+                  <div className="space-y-2 text-xs font-light text-muted-foreground pt-1">
+                    <div className="flex justify-between">
+                      <span>Max Rating</span>
+                      <span className="font-mono font-bold text-foreground">{cfStats?.maxRating || 1204}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Max Rank</span>
+                      <span className={`font-mono font-bold capitalize ${getCfRankColor(cfStats?.maxRank || 'pupil')}`}>
+                        {cfStats?.maxRank || 'pupil'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Contribution</span>
+                      <span className="font-mono font-bold text-foreground">
+                        {cfStats?.contribution !== undefined ? (cfStats.contribution >= 0 ? `+${cfStats.contribution}` : cfStats.contribution) : '0'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="mt-6 pt-3.5 border-t border-border/40 flex justify-between items-center text-[10px] font-mono">
+              <span className="text-muted-foreground/50">@{cfStats?.handle || 'UzairMohiuddin'}</span>
+              <a href="https://codeforces.com/profile/UzairMohiuddin" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline flex items-center gap-0.5">
                 profile <ExternalLink className="h-2.5 w-2.5" />
               </a>
             </div>
