@@ -208,8 +208,8 @@ export const Hero: React.FC = () => {
             </a>
             <div className="flex items-center space-x-2.5">
               <SocialButton platform="github" url="https://github.com/SyedUzaiir" />
-              <SocialButton platform="linkedin" url="https://linkedin.com/in/syeduzair" />
-              <SocialButton platform="leetcode" url="https://leetcode.com/syeduzair" />
+              <SocialButton platform="linkedin" url="https://www.linkedin.com/in/syeduzairmohiuddin" />
+              <SocialButton platform="leetcode" url="https://leetcode.com/uzairmohiuddin" />
             </div>
           </motion.div>
         </div>

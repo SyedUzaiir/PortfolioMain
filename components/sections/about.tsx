@@ -122,7 +122,7 @@ export const About: React.FC = () => {
               <div className="mt-6 pt-4 border-t border-border/40 flex items-center justify-between">
                 <div className="flex space-x-2">
                   <SocialButton platform="github" url="https://github.com/SyedUzaiir" />
-                  <SocialButton platform="linkedin" url="https://linkedin.com/in/syeduzair" />
+                  <SocialButton platform="linkedin" url="https://www.linkedin.com/in/syeduzairmohiuddin" />
                 </div>
                 <Link href="/resume">
                   <Button variant="secondary" className="h-9 px-4 text-xs font-bold uppercase tracking-wider">

@@ -10,8 +10,8 @@ export const JsonLd: React.FC = () => {
     description: 'Software Engineer specializing in Java, Full Stack Development, Spring Boot, AI, MERN Stack and scalable software systems.',
     sameAs: [
       'https://github.com/SyedUzaiir',
-      'https://linkedin.com/in/syeduzair',
-      'https://leetcode.com/syeduzair'
+      'https://www.linkedin.com/in/syeduzairmohiuddin',
+      'https://leetcode.com/uzairmohiuddin'
     ]
   }
 

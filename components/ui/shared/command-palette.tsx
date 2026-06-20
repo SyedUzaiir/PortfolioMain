@@ -118,7 +118,7 @@ export const CommandPalette: React.FC = () => {
       title: 'Go to LinkedIn Profile',
       subtitle: 'Connect professionally',
       category: 'Socials',
-      action: () => window.open('https://linkedin.com/in/syeduzair', '_blank'),
+      action: () => window.open('https://www.linkedin.com/in/syeduzairmohiuddin', '_blank'),
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-muted-foreground">
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -132,7 +132,7 @@ export const CommandPalette: React.FC = () => {
       title: 'Go to LeetCode Profile',
       subtitle: 'Review algorithmic submissions',
       category: 'Socials',
-      action: () => window.open('https://leetcode.com/syeduzair', '_blank'),
+      action: () => window.open('https://leetcode.com/uzairmohiuddin', '_blank'),
       icon: (
         <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-muted-foreground">
           <path d="M13.483 0a1.374 1.374 0 0 0-.961.411L7.1 5.828a1.371 1.371 0 0 0-.054 1.9l4.549 4.549a1.37 1.37 0 0 0 1.94 0l4.549-4.549a1.37 1.37 0 0 0-.054-1.9L14.444.411A1.374 1.374 0 0 0 13.483 0zm.014 2.828l3.18 3.18-3.18 3.18-3.18-3.18 3.18-3.18zm-8.87 5.7a1.37 1.37 0 0 0-1.94 0L.412 10.793a1.37 1.37 0 0 0 0 1.94l2.275 2.276a1.37 1.37 0 0 0 1.94 0l2.275-2.276a1.37 1.37 0 0 0 0-1.94L4.627 8.528zm.054 2.828l.9.9-.9.9-.9-.9.9-.9zm13.123.63a1.37 1.37 0 0 0-1.94 0l-2.275 2.276a1.37 1.37 0 0 0 0 1.94l2.275 2.276a1.37 1.37 0 0 0 1.94 0l2.275-2.276a1.37 1.37 0 0 0 0-1.94l-2.275-2.276zm.054 2.828l.9.9-.9.9-.9-.9.9-.9zM7.162 14.1l-4.55 4.55a1.37 1.37 0 0 0 0 1.94l3.622 3.622a1.37 1.37 0 0 0 1.94 0l4.55-4.55a1.37 1.37 0 0 0 0-1.94L7.162 14.1zm.054 2.828l3.18 3.18-3.18 3.18-3.18-3.18 3.18-3.18z"/>
