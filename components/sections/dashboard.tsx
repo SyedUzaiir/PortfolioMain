@@ -6,8 +6,8 @@ import { GlassCard } from '@/components/ui/cards/glass-card'
 import { ProgressBar } from '@/components/ui/shared/progress-bar'
 import { AnimatedCounter } from '@/components/ui/shared/animated-counter'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
-import { getGitHubStats, getLeetCodeStats, GitHubStats, LeetCodeStats } from '@/lib/services/api'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, ExternalLink } from 'lucide-react'
+import { GitHubStats, LeetCodeStats, CodeChefStats, HackerRankStats, GeeksForGeeksStats } from '@/lib/apis/types'
 
 const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -37,9 +37,25 @@ const dsaSkills = [
   { name: 'Backtracking & Recursion', level: 75 }
 ]
 
+const fallbackContributionDays = (() => {
+  const today = new Date()
+  return Array.from({ length: 126 }, (_, i) => {
+    const d = new Date(today)
+    d.setDate(today.getDate() - (125 - i))
+    return {
+      date: d.toISOString().split('T')[0],
+      count: 0,
+      level: 0
+    }
+  })
+})()
+
 export const Dashboard: React.FC = () => {
   const [ghStats, setGhStats] = useState<GitHubStats | null>(null)
   const [lcStats, setLcStats] = useState<LeetCodeStats | null>(null)
+  const [ccStats, setCcStats] = useState<CodeChefStats | null>(null)
+  const [hrStats, setHrStats] = useState<HackerRankStats | null>(null)
+  const [gfgStats, setGfgStats] = useState<GeeksForGeeksStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -47,12 +63,27 @@ export const Dashboard: React.FC = () => {
     const fetchStats = async () => {
       setLoading(true)
       try {
-        const [gh, lc] = await Promise.all([
-          getGitHubStats('SyedUzaiir'),
-          getLeetCodeStats('uzairmohiuddin')
+        const [ghRes, lcRes, ccRes, hrRes, gfgRes] = await Promise.all([
+          fetch('/api/github?username=SyedUzaiir'),
+          fetch('/api/leetcode?username=uzairmohiuddin'),
+          fetch('/api/codechef?username=uzair_777'),
+          fetch('/api/hackerrank?username=uzairmohiuddin'),
+          fetch('/api/gfg?username=uzairmohiuddin')
         ])
-        setGhStats(gh)
-        setLcStats(lc)
+
+        const [gh, lc, cc, hr, gfg] = await Promise.all([
+          ghRes.ok ? ghRes.json() : null,
+          lcRes.ok ? lcRes.json() : null,
+          ccRes.ok ? ccRes.json() : null,
+          hrRes.ok ? hrRes.json() : null,
+          gfgRes.ok ? gfgRes.json() : null
+        ])
+
+        if (gh) setGhStats(gh)
+        if (lc) setLcStats(lc)
+        if (cc) setCcStats(cc)
+        if (hr) setHrStats(hr)
+        if (gfg) setGfgStats(gfg)
       } catch (err) {
         console.error('Error fetching dashboard stats:', err)
       } finally {
@@ -62,26 +93,19 @@ export const Dashboard: React.FC = () => {
     fetchStats()
   }, [refreshKey])
 
-  // Mock contribution graph grids (last 16 weeks)
-  const heatmapColors = [
-    'bg-muted/30', 'bg-emerald-500/10', 'bg-emerald-500/30',
-    'bg-emerald-500/60', 'bg-emerald-500/90'
-  ]
-  const generateHeatmap = () => {
-    const grid = []
-    // 7 rows x 18 columns = 126 nodes
-    for (let r = 0; r < 7; r++) {
-      const row = []
-      for (let c = 0; c < 18; c++) {
-        // Randomly select color frequency mimicking active contributions
-        const freqIndex = Math.floor(Math.sin((r * c + r) * 0.5) * 2.5 + 2.5)
-        row.push(heatmapColors[freqIndex % heatmapColors.length])
-      }
-      grid.push(row)
-    }
-    return grid
-  }
-  const heatmapGrid = generateHeatmap()
+  // Process contribution calendar cells: last 18 weeks (126 days)
+  const daysToRender = ghStats?.contributionGraph && ghStats.contributionGraph.length > 0
+    ? ghStats.contributionGraph.slice(-126)
+    : fallbackContributionDays
+
+  // Calculate sum of CP solved problems across LeetCode + CodeChef + GFG
+  const totalSolvedCP =
+    (lcStats?.totalSolved || 311) + (ccStats?.problemsSolved || 450) + (gfgStats?.problemsSolved || 80)
+
+  // Calculate rating progress based on current rating relative to 2000 rating (5 Star rating boundary)
+  const ratingProgress = ccStats
+    ? Math.min(Math.round((ccStats.currentRating / 2000) * 100), 100)
+    : 65
 
   return (
     <Section
@@ -97,7 +121,7 @@ export const Dashboard: React.FC = () => {
             Total Solved CP
           </span>
           <div className="mt-2 text-2xl font-black text-foreground">
-            <AnimatedCounter value={loading ? 450 : (lcStats?.totalSolved || 142) + 120 + 80} />
+            <AnimatedCounter value={totalSolvedCP} />
           </div>
           <span className="text-[9px] text-emerald-500 font-mono mt-1">LeetCode + CodeChef + GFG</span>
         </GlassCard>
@@ -107,7 +131,7 @@ export const Dashboard: React.FC = () => {
             Repositories
           </span>
           <div className="mt-2 text-2xl font-black text-foreground">
-            <AnimatedCounter value={loading ? 25 : (ghStats?.publicRepos || 18)} />
+            <AnimatedCounter value={ghStats?.publicRepos || 30} />
           </div>
           <span className="text-[9px] text-muted-foreground/50 font-mono mt-1">GitHub Public repos</span>
         </GlassCard>
@@ -117,7 +141,7 @@ export const Dashboard: React.FC = () => {
             Active Streak
           </span>
           <div className="mt-2 text-2xl font-black text-emerald-500">
-            <AnimatedCounter value={12} /> Days
+            <AnimatedCounter value={lcStats?.streak || 12} /> Days
           </div>
           <span className="text-[9px] text-yellow-500 font-mono mt-1">Daily coding consistency</span>
         </GlassCard>
@@ -129,10 +153,10 @@ export const Dashboard: React.FC = () => {
             </span>
             <button
               onClick={() => setRefreshKey(prev => prev + 1)}
-              className="text-muted-foreground/40 hover:text-foreground cursor-pointer"
+              className="text-muted-foreground/40 hover:text-foreground cursor-pointer transition-all duration-300"
               title="Refresh stats"
             >
-              <RefreshCw className={`h-3 w-3 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-3 w-3 ${loading ? 'animate-spin text-emerald-400' : ''}`} />
             </button>
           </div>
           <div className="mt-2 text-xs font-mono font-bold text-emerald-400">
@@ -157,50 +181,65 @@ export const Dashboard: React.FC = () => {
                   href="https://leetcode.com/uzairmohiuddin"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[10px] font-mono text-emerald-500 hover:underline"
+                  className="text-[10px] font-mono text-emerald-500 hover:underline flex items-center gap-0.5"
                 >
-                  @uzairmohiuddin
+                  @uzairmohiuddin <ExternalLink className="h-2 w-2" />
                 </a>
               </div>
 
               {/* LC Vitals Details */}
-              <div className="mt-4 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground font-light">Solved Problems</span>
-                  <span className="text-sm font-bold font-mono text-foreground">
-                    <AnimatedCounter value={loading ? 142 : (lcStats?.totalSolved || 142)} />
-                  </span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-emerald-500/5 border border-emerald-500/10 rounded p-1.5">
-                    <span className="block text-[9px] text-emerald-400 font-mono font-bold">EASY</span>
-                    <span className="text-xs font-bold font-mono text-foreground">50</span>
+              {loading && !lcStats ? (
+                <div className="mt-4 space-y-4 animate-pulse">
+                  <div className="h-4 bg-muted/20 rounded w-1/2"></div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="h-10 bg-muted/20 rounded"></div>
+                    <div className="h-10 bg-muted/20 rounded"></div>
+                    <div className="h-10 bg-muted/20 rounded"></div>
                   </div>
-                  <div className="bg-yellow-500/5 border border-yellow-500/10 rounded p-1.5">
-                    <span className="block text-[9px] text-yellow-400 font-mono font-bold">MED</span>
-                    <span className="text-xs font-bold font-mono text-foreground">75</span>
-                  </div>
-                  <div className="bg-red-500/5 border border-red-500/10 rounded p-1.5">
-                    <span className="block text-[9px] text-red-400 font-mono font-bold">HARD</span>
-                    <span className="text-xs font-bold font-mono text-foreground">17</span>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-muted/20 rounded w-5/6"></div>
+                    <div className="h-3 bg-muted/20 rounded w-4/6"></div>
                   </div>
                 </div>
+              ) : (
+                <div className="mt-4 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground font-light">Solved Problems</span>
+                    <span className="text-sm font-bold font-mono text-foreground">
+                      <AnimatedCounter value={lcStats?.totalSolved || 311} />
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="bg-emerald-500/5 border border-emerald-500/10 rounded p-1.5">
+                      <span className="block text-[9px] text-emerald-400 font-mono font-bold">EASY</span>
+                      <span className="text-xs font-bold font-mono text-foreground">{lcStats?.easySolved || 136}</span>
+                    </div>
+                    <div className="bg-yellow-500/5 border border-yellow-500/10 rounded p-1.5">
+                      <span className="block text-[9px] text-yellow-400 font-mono font-bold">MED</span>
+                      <span className="text-xs font-bold font-mono text-foreground">{lcStats?.mediumSolved || 143}</span>
+                    </div>
+                    <div className="bg-red-500/5 border border-red-500/10 rounded p-1.5">
+                      <span className="block text-[9px] text-red-400 font-mono font-bold">HARD</span>
+                      <span className="text-xs font-bold font-mono text-foreground">{lcStats?.hardSolved || 32}</span>
+                    </div>
+                  </div>
 
-                <div className="space-y-2 pt-2">
-                  <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
-                    <span>Acceptance Rate</span>
-                    <span>{loading ? '52.6%' : `${lcStats?.acceptanceRate || 52.6}%`}</span>
-                  </div>
-                  <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
-                    <span>Global Ranking</span>
-                    <span>{loading ? '#285k' : `#${lcStats?.ranking.toLocaleString() || '285,400'}`}</span>
-                  </div>
-                  <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
-                    <span>Contest Rating</span>
-                    <span>1,620</span>
+                  <div className="space-y-2 pt-2">
+                    <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
+                      <span>Contest Rating</span>
+                      <span className="text-foreground font-bold">{lcStats?.contestRating || 1705}</span>
+                    </div>
+                    <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
+                      <span>Global Ranking</span>
+                      <span>#{lcStats?.ranking.toLocaleString() || '448,458'}</span>
+                    </div>
+                    <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
+                      <span>Top Percentage</span>
+                      <span className="text-emerald-400">{lcStats?.topPercentage || 13.26}%</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <a
@@ -227,52 +266,75 @@ export const Dashboard: React.FC = () => {
                   href="https://github.com/SyedUzaiir"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[10px] font-mono text-emerald-500 hover:underline"
+                  className="text-[10px] font-mono text-emerald-500 hover:underline flex items-center gap-0.5"
                 >
-                  @SyedUzaiir
+                  @SyedUzaiir <ExternalLink className="h-2 w-2" />
                 </a>
               </div>
 
               {/* GitHub Details */}
-              <div className="mt-4 space-y-3.5">
-                <div className="grid grid-cols-3 gap-2 text-center text-xs text-muted-foreground font-light">
-                  <div>
-                    <span className="block font-mono font-bold text-foreground text-sm">
-                      <AnimatedCounter value={loading ? 18 : (ghStats?.publicRepos || 18)} />
-                    </span>
-                    <span className="text-[9px] font-mono">Repos</span>
+              {loading && !ghStats ? (
+                <div className="mt-4 space-y-4 animate-pulse">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="h-10 bg-muted/20 rounded"></div>
+                    <div className="h-10 bg-muted/20 rounded"></div>
+                    <div className="h-10 bg-muted/20 rounded"></div>
                   </div>
-                  <div>
-                    <span className="block font-mono font-bold text-foreground text-sm">
-                      <AnimatedCounter value={loading ? 45 : (ghStats?.followers || 45)} />
-                    </span>
-                    <span className="text-[9px] font-mono">Followers</span>
-                  </div>
-                  <div>
-                    <span className="block font-mono font-bold text-foreground text-sm">
-                      <AnimatedCounter value={loading ? 8 : (ghStats?.totalStars || 8)} />
-                    </span>
-                    <span className="text-[9px] font-mono">Stars</span>
-                  </div>
+                  <div className="h-20 bg-muted/20 rounded pt-2"></div>
                 </div>
+              ) : (
+                <div className="mt-4 space-y-3.5">
+                  <div className="grid grid-cols-3 gap-2 text-center text-xs text-muted-foreground font-light">
+                    <div>
+                      <span className="block font-mono font-bold text-foreground text-sm">
+                        <AnimatedCounter value={ghStats?.publicRepos || 30} />
+                      </span>
+                      <span className="text-[9px] font-mono">Repos</span>
+                    </div>
+                    <div>
+                      <span className="block font-mono font-bold text-foreground text-sm">
+                        <AnimatedCounter value={ghStats?.followers || 45} />
+                      </span>
+                      <span className="text-[9px] font-mono">Followers</span>
+                    </div>
+                    <div>
+                      <span className="block font-mono font-bold text-foreground text-sm">
+                        <AnimatedCounter value={ghStats?.totalStars || 8} />
+                      </span>
+                      <span className="text-[9px] font-mono">Stars</span>
+                    </div>
+                  </div>
 
-                {/* Simulated Heatmap */}
-                <div className="pt-2">
-                  <span className="text-[10px] text-muted-foreground/60 font-mono block mb-2">
-                    Recent Contribution activity
-                  </span>
-                  <div className="grid grid-rows-7 grid-flow-col gap-0.5 max-w-[240px] overflow-hidden">
-                    {heatmapGrid.map((row, rIdx) =>
-                      row.map((color, cIdx) => (
-                        <div
-                          key={`${rIdx}-${cIdx}`}
-                          className={`h-2 w-2 rounded-sm ${color} transition-colors`}
-                        />
-                      ))
-                    )}
+                  {/* Dynamic Heatmap */}
+                  <div className="pt-2">
+                    <span className="text-[10px] text-muted-foreground/60 font-mono block mb-2">
+                      Recent Activity (Last 18 weeks)
+                    </span>
+                    <div className="grid grid-rows-7 grid-flow-col gap-1 max-w-full overflow-x-auto pb-1">
+                      {daysToRender.map((day) => {
+                        const levelColors = [
+                          'bg-muted/20 border border-border/10',
+                          'bg-emerald-500/15',
+                          'bg-emerald-500/35',
+                          'bg-emerald-500/65',
+                          'bg-emerald-500/90'
+                        ]
+                        const colorClass = levelColors[day.level] || levelColors[0]
+                        return (
+                          <div
+                            key={day.date}
+                            className={`h-2.5 w-2.5 rounded-sm ${colorClass} transition-all duration-300 relative group cursor-pointer hover:scale-125 hover:z-10`}
+                          >
+                            <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 opacity-0 group-hover:opacity-100 transition-opacity bg-popover border border-border text-popover-foreground text-[8px] font-mono py-0.5 px-1.5 rounded shadow-lg whitespace-nowrap z-30">
+                              {day.count} commits on {day.date}
+                            </span>
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <a
@@ -296,44 +358,59 @@ export const Dashboard: React.FC = () => {
                   <h4 className="text-sm font-bold text-foreground">CodeChef</h4>
                 </div>
                 <a
-                  href="https://codechef.com"
+                  href="https://www.codechef.com/users/uzair_777"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[10px] font-mono text-emerald-500 hover:underline"
+                  className="text-[10px] font-mono text-emerald-500 hover:underline flex items-center gap-0.5"
                 >
-                  @uzair_777
+                  @uzair_777 <ExternalLink className="h-2 w-2" />
                 </a>
               </div>
 
               {/* CC details */}
-              <div className="mt-4 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground font-light">Rating Rank</span>
-                  <span className="inline-flex items-center space-x-1 font-mono text-xs font-bold text-orange-400">
-                    <span>1,510</span>
-                    <span className="text-[9px] bg-orange-500/15 border border-orange-500/20 px-1 rounded font-bold uppercase text-[8px]">
-                      3 Star ★★★
+              {loading && !ccStats ? (
+                <div className="mt-4 space-y-4 animate-pulse">
+                  <div className="h-4 bg-muted/20 rounded w-2/3"></div>
+                  <div className="h-3 bg-muted/20 rounded w-full"></div>
+                  <div className="space-y-2 pt-2">
+                    <div className="h-3 bg-muted/20 rounded w-5/6"></div>
+                    <div className="h-3 bg-muted/20 rounded w-4/6"></div>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-4 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground font-light">Rating Rank</span>
+                    <span className="inline-flex items-center space-x-1 font-mono text-xs font-bold text-orange-400">
+                      <span>{ccStats?.currentRating || 1311}</span>
+                      <span className="text-[9px] bg-orange-500/15 border border-orange-500/20 px-1 rounded font-bold uppercase text-[8px]">
+                        {ccStats?.stars || '1★'}
+                      </span>
                     </span>
-                  </span>
-                </div>
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
-                    <span>Highest Rating</span>
-                    <span>1,510</span>
                   </div>
-                  <ProgressBar value={82} className="bg-orange-500/10 [&>div]:bg-orange-500" />
-                </div>
-                <div className="space-y-2 text-xs font-light text-muted-foreground space-y-2">
-                  <div className="flex justify-between">
-                    <span>Contests Participated</span>
-                    <span className="font-mono font-bold text-foreground">15</span>
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-[11px] font-mono text-muted-foreground">
+                      <span>Highest Rating</span>
+                      <span>{ccStats?.highestRating || 1460}</span>
+                    </div>
+                    <ProgressBar value={ratingProgress} className="bg-orange-500/10 [&>div]:bg-orange-500" />
                   </div>
-                  <div className="flex justify-between">
-                    <span>Problems Solved</span>
-                    <span className="font-mono font-bold text-foreground">120+</span>
+                  <div className="space-y-2 text-xs font-light text-muted-foreground pt-1">
+                    <div className="flex justify-between">
+                      <span>Global Rank</span>
+                      <span className="font-mono font-bold text-foreground">#{ccStats?.globalRank.toLocaleString() || '61,756'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Country Rank</span>
+                      <span className="font-mono font-bold text-foreground">#{ccStats?.countryRank.toLocaleString() || '52,932'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Problems Solved</span>
+                      <span className="font-mono font-bold text-foreground">{ccStats?.problemsSolved || 450}+</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <a
@@ -353,28 +430,42 @@ export const Dashboard: React.FC = () => {
           <GlassCard className="p-5 flex flex-col justify-between h-full">
             <div>
               <div className="flex justify-between items-center border-b border-border/40 pb-2.5">
-                <h4 className="text-xs font-bold text-foreground">HackerRank Metrics</h4>
+                <div className="flex items-center space-x-2">
+                  <span className="h-4.5 w-4.5 bg-emerald-500/10 text-emerald-500 rounded flex items-center justify-center text-[9px] font-black font-mono">HR</span>
+                  <h4 className="text-xs font-bold text-foreground">HackerRank Metrics</h4>
+                </div>
                 <span className="text-[9px] font-mono text-emerald-500">Verified Skills</span>
               </div>
-              <div className="mt-3.5 space-y-2 text-[11px] font-light text-muted-foreground">
-                <div className="flex justify-between items-center">
-                  <span>Java (Problem Solving)</span>
-                  <span className="font-mono text-yellow-500 font-bold">★★★★★ Gold</span>
+              
+              {loading && !hrStats ? (
+                <div className="mt-3.5 space-y-2 animate-pulse">
+                  <div className="h-3 bg-muted/20 rounded w-full"></div>
+                  <div className="h-3 bg-muted/20 rounded w-5/6"></div>
+                  <div className="h-3 bg-muted/20 rounded w-4/6"></div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span>SQL Advanced Queries</span>
-                  <span className="font-mono text-yellow-500 font-bold">★★★★★ Gold</span>
+              ) : (
+                <div className="mt-3.5 space-y-2 text-[11px] font-light text-muted-foreground">
+                  {(hrStats?.badges || []).slice(0, 3).map((badge) => {
+                    const starsStr = '★'.repeat(badge.stars) + '☆'.repeat(Math.max(0, 5 - badge.stars))
+                    return (
+                      <div key={badge.name} className="flex justify-between items-center">
+                        <span className="capitalize">{badge.name.replace(/-/g, ' ')} ({badge.solved} solved)</span>
+                        <span className="font-mono text-yellow-500 font-bold">{starsStr}</span>
+                      </div>
+                    )
+                  })}
+                  {(!hrStats?.badges || hrStats.badges.length === 0) && (
+                    <div className="text-center py-2 text-[10px] text-muted-foreground/60">
+                      No badges found.
+                    </div>
+                  )}
                 </div>
-                <div className="flex justify-between items-center">
-                  <span>Python Scripting</span>
-                  <span className="font-mono text-yellow-500 font-bold">★★★★☆ Silver</span>
-                </div>
-              </div>
+              )}
             </div>
             <div className="mt-6 pt-3.5 border-t border-border/40 flex justify-between items-center text-[10px] font-mono">
-              <span className="text-muted-foreground/50">3 Badges</span>
-              <a href="https://hackerrank.com" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:underline">
-                verify &rarr;
+              <span className="text-muted-foreground/50">{hrStats?.followersCount || 12} Followers</span>
+              <a href="https://www.hackerrank.com/profile/uzairmohiuddin" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:underline flex items-center gap-0.5">
+                verify <ExternalLink className="h-2.5 w-2.5" />
               </a>
             </div>
           </GlassCard>
@@ -383,28 +474,40 @@ export const Dashboard: React.FC = () => {
           <GlassCard className="p-5 flex flex-col justify-between h-full">
             <div>
               <div className="flex justify-between items-center border-b border-border/40 pb-2.5">
-                <h4 className="text-xs font-bold text-foreground">GeeksforGeeks</h4>
+                <div className="flex items-center space-x-2">
+                  <span className="h-4.5 w-4.5 bg-green-500/10 text-green-500 rounded flex items-center justify-center text-[9px] font-black font-mono">G</span>
+                  <h4 className="text-xs font-bold text-foreground">GeeksforGeeks</h4>
+                </div>
                 <span className="text-[9px] font-mono text-emerald-500">Institute Rank</span>
               </div>
-              <div className="mt-3.5 space-y-2.5 text-[11px] font-light text-muted-foreground">
-                <div className="flex justify-between">
-                  <span>Coding Score</span>
-                  <span className="font-mono font-bold text-foreground">340</span>
+
+              {loading && !gfgStats ? (
+                <div className="mt-3.5 space-y-2 animate-pulse">
+                  <div className="h-3 bg-muted/20 rounded w-full"></div>
+                  <div className="h-3 bg-muted/20 rounded w-5/6"></div>
+                  <div className="h-3 bg-muted/20 rounded w-4/6"></div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Problems Solved</span>
-                  <span className="font-mono font-bold text-foreground">80+</span>
+              ) : (
+                <div className="mt-3.5 space-y-2.5 text-[11px] font-light text-muted-foreground">
+                  <div className="flex justify-between">
+                    <span>Coding Score</span>
+                    <span className="font-mono font-bold text-foreground">{gfgStats?.score || 340}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Problems Solved</span>
+                    <span className="font-mono font-bold text-foreground">{gfgStats?.problemsSolved || 80}+</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Institute Rank</span>
+                    <span className="font-mono font-bold text-foreground">#{gfgStats?.instituteRank.toLocaleString() || '18'}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Institute Rank</span>
-                  <span className="font-mono font-bold text-foreground">#18</span>
-                </div>
-              </div>
+              )}
             </div>
             <div className="mt-6 pt-3.5 border-t border-border/40 flex justify-between items-center text-[10px] font-mono">
-              <span className="text-muted-foreground/50">@uzair_gfg</span>
-              <a href="https://geeksforgeeks.org" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:underline">
-                profile &rarr;
+              <span className="text-muted-foreground/50">@uzairmohiuddin</span>
+              <a href="https://www.geeksforgeeks.org/profile/uzairmohiuddin" target="_blank" rel="noopener noreferrer" className="text-emerald-500 hover:underline flex items-center gap-0.5">
+                profile <ExternalLink className="h-2.5 w-2.5" />
               </a>
             </div>
           </GlassCard>

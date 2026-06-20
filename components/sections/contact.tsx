@@ -8,7 +8,7 @@ import { ScrollReveal } from '@/components/motion/scroll-reveal'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { contactFormSchema, ContactForm } from '@/types/portfolio'
-import emailjs from '@emailjs/browser'
+import { sendEmail } from '@/lib/apis/email'
 import { Mail, MapPin, Download, FileText, ArrowUpRight, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -41,29 +41,19 @@ export const Contact: React.FC = () => {
     setSubmitStatus(null)
 
     try {
-      // Clean submit mapping to EmailJS parameters
-      const templateParams = {
-        from_name: data.name,
-        reply_to: data.email,
+      const success = await sendEmail({
+        name: data.name,
+        email: data.email,
         subject: data.subject,
         message: data.message
-      }
+      })
 
-      // Check if keys are present in env variables, otherwise mock for verification speed
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_dummy'
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_dummy'
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'public_dummy'
-
-      if (serviceId === 'service_dummy') {
-        // Fallback simulate to test UI/UX cleanly
-        await new Promise((resolve) => setTimeout(resolve, 1500))
-        console.log('Dummy submission success:', templateParams)
+      if (success) {
+        setSubmitStatus('success')
+        reset()
       } else {
-        await emailjs.send(serviceId, templateId, templateParams, publicKey)
+        setSubmitStatus('error')
       }
-
-      setSubmitStatus('success')
-      reset()
     } catch (err) {
       console.error('Email send failed:', err)
       setSubmitStatus('error')
