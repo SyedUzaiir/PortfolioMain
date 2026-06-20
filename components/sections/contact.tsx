@@ -182,7 +182,7 @@ export const Contact: React.FC = () => {
                 <FileText className="h-4 w-4" /> Preview Resume
               </Button>
             </Link>
-            <a href="/Syed_Uzair_Mohiuddin_Resume.pdf" download>
+            <a href="/UzairRobustResume.pdf" download="Syed_Uzair_Mohiuddin_Resume.pdf">
               <Button variant="secondary" magnetic className="h-10 px-5 text-xs font-bold uppercase tracking-wider gap-2">
                 <Download className="h-4 w-4" /> Download PDF
               </Button>

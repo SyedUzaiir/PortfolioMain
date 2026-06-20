@@ -19,12 +19,12 @@ export const Button: React.FC<ButtonProps> = ({
   const getStyles = () => {
     switch (variant) {
       case 'secondary':
-        return 'border border-border bg-card text-foreground hover:bg-muted'
+        return 'border border-black/10 dark:border-border bg-white dark:bg-card text-foreground hover:bg-muted shadow-sm dark:shadow-none'
       case 'ghost':
-        return 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30'
+        return 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-muted/30'
       case 'primary':
       default:
-        return 'bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 shadow-lg shadow-emerald-500/10'
+        return 'bg-emerald-600 dark:bg-emerald-600 text-white hover:bg-emerald-700 dark:hover:bg-emerald-500 shadow-md shadow-emerald-600/20'
     }
   }
 

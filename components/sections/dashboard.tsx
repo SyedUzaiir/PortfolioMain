@@ -112,7 +112,7 @@ export const Dashboard: React.FC = () => {
       id="dashboard"
       title="CP & Git Dashboard"
       subtitle="Engineering Metrics"
-      className="py-20 border-t border-border/30 bg-muted/5"
+      className="py-20 border-t border-border/30 section-alt"
     >
       {/* Overview Aggregation Header */}
       <ScrollReveal variant="blur" className="grid grid-cols-2 gap-4 md:grid-cols-4 text-left mb-10">

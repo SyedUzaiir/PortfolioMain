@@ -64,7 +64,7 @@ export const Achievements: React.FC = () => {
       id="achievements"
       title="Achievements & Impact"
       subtitle="Milestones throughout my software engineering journey."
-      className="py-20 border-t border-border/30 bg-muted/5"
+      className="py-20 border-t border-border/30 section-alt"
     >
       {/* 1. Stats Counter Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 text-left">
@@ -120,8 +120,8 @@ export const Achievements: React.FC = () => {
               <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:items-center md:space-x-3">
                 {focusWorkflow.map((item, idx) => (
                   <React.Fragment key={item.step}>
-                    <div className="flex-1 bg-zinc-950/40 border border-border/50 p-3.5 rounded-card relative group hover:border-emerald-500/20 transition-all">
-                      <div className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/5 border border-emerald-500/15 w-5 h-5 rounded-full flex items-center justify-center mb-2 shadow-sm">
+                    <div className="flex-1 bg-muted/30 dark:bg-zinc-950/40 border border-border/60 dark:border-border/50 p-3.5 rounded-card relative group hover:border-emerald-500/20 transition-all">
+                      <div className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 w-5 h-5 rounded-full flex items-center justify-center mb-2 shadow-sm">
                         {idx + 1}
                       </div>
                       <h4 className="text-xs font-bold text-foreground leading-snug">{item.step}</h4>
@@ -173,7 +173,7 @@ export const Achievements: React.FC = () => {
               {achievementTimeline.map((item, idx) => (
                 <ScrollReveal key={item.year} variant="fade-up" delay={idx * 0.05} className="relative pl-10">
                   {/* Stepper Node capsule containing year */}
-                  <div className="absolute left-0 top-0.5 z-10 w-[56px] h-6 -translate-x-[15px] rounded-full border border-emerald-500/30 bg-zinc-950 flex items-center justify-center text-[10px] font-mono font-bold text-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.1)]">
+                  <div className="absolute left-0 top-0.5 z-10 w-[56px] h-6 -translate-x-[15px] rounded-full border border-emerald-500/30 bg-muted dark:bg-zinc-950 flex items-center justify-center text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 shadow-sm">
                     {item.year}
                   </div>
                   

@@ -8,10 +8,10 @@ export const projects: Project[] = [
     image: '/projects/placementpro.png',
     github: 'https://github.com/SyedUzaiir/PlacementPro-AI',
     live: 'https://placementpro-ai.vercel.app',
-    status: 'completed',
+    status: 'in-progress',
     techStack: ['Java', 'Spring Boot', 'Next.js', 'TypeScript', 'PostgreSQL', 'Docker', 'Generative AI'],
     featured: true,
-    year: '2025',
+    year: '2026',
     category: 'AI SaaS',
     problemSolved: 'Recruiters manually screen thousands of resumes, leading to screening fatigue and missing qualified candidates due to human error.',
     keyFeatures: [
@@ -68,28 +68,28 @@ export const projects: Project[] = [
     challenges: 'Handling noisy vitals streams. Implemented a Kalman filter smoothing preprocess pipeline to eliminate false alert anomalies.',
     futureImprovements: ['Add wearable devices API feeds integration', 'Deploy on HIPAA-compliant cloud server stacks']
   },
-  {
-    id: 'smart-street',
-    title: 'Smart Street IoT Hub',
-    description: 'A hardware-software hub managing smart street light networks, energy profiles, and environmental telemetry.',
-    image: '/projects/placementpro.png',
-    github: 'https://github.com/SyedUzaiir/Smart-Street',
-    status: 'completed',
-    techStack: ['Python', 'Docker', 'PostgreSQL', 'React', 'Tailwind CSS'],
-    featured: false,
-    year: '2024',
-    category: 'IoT / Embedded',
-    problemSolved: 'Municipal street lighting networks draw massive amounts of energy and lack centralized fault reporting mechanisms.',
-    keyFeatures: [
-      'Centralized hardware coordinate map management',
-      'Automatic light adjusting matching sun coordinates',
-      'Automated error logs for broken lamp nodes',
-      'Environmental sensors dashboards'
-    ],
-    architecture: 'Dockerized microservices containing an MQTT broker, a Python worker collecting coordinates, and a PostgreSQL database storing environmental logs.',
-    challenges: 'Optimizing high-frequency write operations on database systems. Resolved by batching insert statements in the Python consumer thread.',
-    futureImprovements: ['Add predictive maintenance analytics models', 'Integrate solar grid feedback sensors']
-  },
+  // {
+  //   id: 'smart-street',
+  //   title: 'Smart Street IoT Hub',
+  //   description: 'A hardware-software hub managing smart street light networks, energy profiles, and environmental telemetry.',
+  //   image: '/projects/placementpro.png',
+  //   github: 'https://github.com/SyedUzaiir/Smart-Street',
+  //   status: 'completed',
+  //   techStack: ['Python', 'Docker', 'PostgreSQL', 'React', 'Tailwind CSS'],
+  //   featured: false,
+  //   year: '2024',
+  //   category: 'IoT / Embedded',
+  //   problemSolved: 'Municipal street lighting networks draw massive amounts of energy and lack centralized fault reporting mechanisms.',
+  //   keyFeatures: [
+  //     'Centralized hardware coordinate map management',
+  //     'Automatic light adjusting matching sun coordinates',
+  //     'Automated error logs for broken lamp nodes',
+  //     'Environmental sensors dashboards'
+  //   ],
+  //   architecture: 'Dockerized microservices containing an MQTT broker, a Python worker collecting coordinates, and a PostgreSQL database storing environmental logs.',
+  //   challenges: 'Optimizing high-frequency write operations on database systems. Resolved by batching insert statements in the Python consumer thread.',
+  //   futureImprovements: ['Add predictive maintenance analytics models', 'Integrate solar grid feedback sensors']
+  // },
   {
     id: 'magnus-ai',
     title: 'Magnus AI Agent Platform',
@@ -111,26 +111,26 @@ export const projects: Project[] = [
     challenges: 'Preventing infinite loops during agent self-correction steps. Solved by implementing recursive depth limit metrics inside execution routing graphs.',
     futureImprovements: ['Add local model support (Ollama)', 'Integrate Slack and Discord alerts hooks']
   },
-  {
-    id: 'careerflow',
-    title: 'CareerFlow Portal',
-    description: 'A full-stack placement portal managing job postings, candidate applications, and user messaging.',
-    image: '/projects/ai-doc.png',
-    github: 'https://github.com/SyedUzaiir/CareerFlow',
-    status: 'completed',
-    techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
-    featured: false,
-    year: '2024',
-    category: 'Full Stack Web',
-    problemSolved: 'Students lack centralized portals to track applications, communicate with coordinators, and practice mock questions.',
-    keyFeatures: [
-      'Secure applicant session management (JWT)',
-      'Job filter board matching core technology fields',
-      'Application progress tracking statuses',
-      'Built-in message forums between candidates'
-    ],
-    architecture: 'Express REST routes manage request sessions, MongoDB stores candidate profiles, and React renders clean filter cards.',
-    challenges: 'Securing file uploads (resume PDFs) from malicious exploits. Solved by validating MIME types and uploading files to secure S3 storage nodes.',
-    futureImprovements: ['Add automated calendar synchronization', 'Integrate resume score feedback widgets']
-  }
+  // {
+  //   id: 'careerflow',
+  //   title: 'CareerFlow Portal',
+  //   description: 'A full-stack placement portal managing job postings, candidate applications, and user messaging.',
+  //   image: '/projects/ai-doc.png',
+  //   github: 'https://github.com/SyedUzaiir/CareerFlow',
+  //   status: 'completed',
+  //   techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
+  //   featured: false,
+  //   year: '2024',
+  //   category: 'Full Stack Web',
+  //   problemSolved: 'Students lack centralized portals to track applications, communicate with coordinators, and practice mock questions.',
+  //   keyFeatures: [
+  //     'Secure applicant session management (JWT)',
+  //     'Job filter board matching core technology fields',
+  //     'Application progress tracking statuses',
+  //     'Built-in message forums between candidates'
+  //   ],
+  //   architecture: 'Express REST routes manage request sessions, MongoDB stores candidate profiles, and React renders clean filter cards.',
+  //   challenges: 'Securing file uploads (resume PDFs) from malicious exploits. Solved by validating MIME types and uploading files to secure S3 storage nodes.',
+  //   futureImprovements: ['Add automated calendar synchronization', 'Integrate resume score feedback widgets']
+  // }
 ]

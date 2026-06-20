@@ -58,8 +58,8 @@ export const Hero: React.FC = () => {
         />
       )}
 
-      {/* 3. Horizontal Visual Glow Capsule connecting Left and Right Columns */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[300px] rounded-full bg-emerald-500/[0.04] blur-[150px] pointer-events-none -z-10" />
+      {/* 3. Horizontal Visual Glow Capsule — dark mode only */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[300px] rounded-full hidden dark:block bg-emerald-500/[0.04] blur-[150px] pointer-events-none -z-10" />
 
       {/* 4. Drifting Thin Outlined Geometry (○, □, △) */}
       <motion.svg
@@ -92,8 +92,10 @@ export const Hero: React.FC = () => {
       <Container className="relative z-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
         {/* Left Column Content */}
         <div className="flex flex-col space-y-6 lg:col-span-7 relative">
-          {/* Large Blurred Glow behind name */}
-          <div className="absolute -left-20 top-0 h-[500px] w-[500px] rounded-full bg-emerald-500/[0.05] dark:bg-emerald-500/[0.04] blur-[150px] pointer-events-none -z-10" />
+          {/* Glow behind name: very faint in light, slightly more in dark */}
+          <div className="absolute -left-20 top-0 h-[500px] w-[500px] rounded-full
+            bg-emerald-500/[0.04] dark:bg-emerald-500/[0.06]
+            blur-[160px] pointer-events-none -z-10" />
 
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -199,11 +201,11 @@ export const Hero: React.FC = () => {
                 View Projects
               </Button>
             </Link>
-            <Link href="/resume">
+            <a href="/UzairRobustResume.pdf" download="Syed_Uzair_Mohiuddin_Resume.pdf">
               <Button variant="secondary" magnetic>
                 Download Resume
               </Button>
-            </Link>
+            </a>
             <div className="flex items-center space-x-2.5">
               <SocialButton platform="github" url="https://github.com/SyedUzaiir" />
               <SocialButton platform="linkedin" url="https://linkedin.com/in/syeduzair" />
@@ -219,11 +221,19 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="relative hidden items-center justify-center lg:col-span-5 lg:flex"
         >
-          {/* Soft Emerald Glow behind terminal */}
-          <div className="absolute -inset-4 bg-emerald-500/10 dark:bg-emerald-500/[0.07] rounded-card blur-[80px] -z-10 pointer-events-none" />
+          {/* Soft Glow behind terminal: very subtle in light, more visible in dark */}
+          <div className="absolute -inset-4
+            bg-emerald-500/[0.04] dark:bg-emerald-500/[0.07]
+            rounded-card blur-[70px] -z-10 pointer-events-none" />
 
-          {/* Workstation Frame mockup */}
-          <div className="relative w-full max-w-[400px] aspect-[4/3] rounded-card border border-border/80 bg-card/40 p-3 shadow-2xl backdrop-blur-md overflow-hidden">
+          {/* Terminal frame — intentional dark panel in both themes */}
+          <div className="relative w-full max-w-[400px] aspect-[4/3] rounded-[24px] border
+            border-black/[0.08] dark:border-border/80
+            bg-zinc-950 dark:bg-card/40
+            p-3
+            shadow-[0_8px_40px_rgba(0,0,0,0.14),_0_2px_8px_rgba(0,0,0,0.08)]
+            dark:shadow-2xl
+            dark:backdrop-blur-md overflow-hidden">
             <div className="flex items-center space-x-1.5 border-b border-border/60 pb-2">
               <div className="h-2 w-2 rounded-full bg-red-500/80" />
               <div className="h-2 w-2 rounded-full bg-yellow-500/80" />

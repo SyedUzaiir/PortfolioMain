@@ -27,7 +27,7 @@ const nowBullets = [
 
 export const TechStack: React.FC = () => {
   return (
-    <Section id="tech-stack" title="Technology & Focus" subtitle="Tech Stack" className="py-20 border-t border-border/30 bg-muted/5">
+    <Section id="tech-stack" title="Technology & Focus" subtitle="Tech Stack" className="py-20 border-t border-border/30 section-alt">
       {/* Self-contained CSS stylesheet for smooth marquee looping */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes marquee {
@@ -68,7 +68,7 @@ export const TechStack: React.FC = () => {
             {[...stackItems, ...stackItems].map((item, idx) => (
               <div
                 key={`${item}-${idx}`}
-                className="flex items-center space-x-2 rounded-button border border-border bg-card px-5 py-3 text-xs font-mono font-bold text-foreground/80 hover:text-emerald-500 hover:border-emerald-500/30 transition-all select-none shadow-sm"
+                className="flex items-center space-x-2 rounded-button border border-black/[0.07] dark:border-border bg-white dark:bg-card px-5 py-3 text-xs font-mono font-bold text-foreground/80 hover:text-emerald-600 dark:hover:text-emerald-500 hover:border-emerald-500/30 transition-all select-none shadow-sm"
               >
                 <span>{item}</span>
               </div>
@@ -94,7 +94,7 @@ export const TechStack: React.FC = () => {
                 {learningItems.map((item) => (
                   <div
                     key={item.name}
-                    className="flex items-center space-x-2.5 rounded-card border border-border/80 bg-card/30 p-3 hover:border-emerald-500/20 hover:bg-emerald-500/[0.01] transition-all group"
+                    className="flex items-center space-x-2.5 rounded-card border border-black/[0.06] dark:border-border/80 bg-white dark:bg-card/30 p-3 hover:border-emerald-500/20 hover:bg-emerald-50 dark:hover:bg-emerald-500/[0.01] transition-all group"
                   >
                     <span className="text-sm group-hover:scale-110 transition-transform">{item.icon}</span>
                     <span className="text-xs font-mono font-bold text-muted-foreground group-hover:text-foreground transition-colors">

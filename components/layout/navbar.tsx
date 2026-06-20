@@ -19,18 +19,18 @@ export const Navbar: React.FC = () => {
   }, [])
 
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'About', href: '/#about' },
+    { name: 'Skills', href: '/#skills' },
+    { name: 'Projects', href: '/#projects' },
+    { name: 'Experience', href: '/#experience' },
+    { name: 'Contact', href: '/#contact' }
   ]
 
   return (
     <header
       className={`fixed top-0 left-0 z-40 w-full transition-all duration-300 ${
         scrolled
-          ? 'bg-background/60 backdrop-blur-md border-b border-border/80 py-4 shadow-sm'
+          ? 'bg-[rgba(250,250,248,0.80)] dark:bg-background/60 backdrop-blur-xl border-b border-black/[0.06] dark:border-border/80 py-4 shadow-sm'
           : 'bg-transparent py-6 border-b border-transparent'
       }`}
     >

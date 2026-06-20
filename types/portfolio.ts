@@ -35,6 +35,8 @@ export interface Experience {
   role: string
   duration: string         // e.g. "Aug 2024 – Present"
   location?: string
+  mode?: string            // e.g. "On-site", "Remote", "Hybrid"
+  program?: string         // e.g. named training/internship program
   description: string[]    // Bullet points of accomplishments
   technologies?: string[]
 }
@@ -42,9 +44,12 @@ export interface Experience {
 export interface Education {
   id: string
   institution: string
+  university?: string      // Affiliating university (for B.Tech etc.)
+  board?: string           // Affiliating board (for Diploma etc.)
   degree: string
   duration: string         // e.g. "2021 – 2025"
   cgpa?: string
+  showCgpa?: boolean       // Controls whether CGPA is displayed in UI
   details?: string[]
 }
 

@@ -2,30 +2,32 @@ import { Experience } from '@/types/portfolio'
 
 export const experience: Experience[] = [
   {
-    id: 'exp1',
-    company: 'Tech Solutions Inc.',
-    role: 'Software Engineer (Java Backend & Full Stack)',
-    location: 'Remote',
-    duration: 'Aug 2024 – Present',
+    id: 'exp-aws',
+    company: 'SV Global Services Pvt. Ltd.',
+    role: 'AWS Cloud Computing Trainee',
+    mode: 'On-site',
+    duration: 'Jun 2024 – Jul 2024',
     description: [
-      'Developed and optimized scalable Java backend services using Spring Boot and microservices architecture, improving system response times by 20%.',
-      'Designed and integrated RESTful APIs, securing them using Spring Security and OAuth2 protocol.',
-      'Collaborated on building intuitive web interfaces with Next.js, TypeScript, and Tailwind CSS, increasing user engagement by 15%.',
-      'Configured CI/CD pipelines and managed dockerized deployments on AWS cloud infrastructure.'
+      'Completed hands-on training in AWS Cloud Computing fundamentals.',
+      'Worked with core AWS services including Amazon S3 for scalable storage solutions.',
+      'Learned cloud deployment fundamentals and best practices for cloud infrastructure.',
+      'Gained practical understanding of cloud architecture, services, and management tools.'
     ],
-    technologies: ['Java', 'Spring Boot', 'Next.js', 'TypeScript', 'Docker', 'AWS', 'PostgreSQL']
+    technologies: ['AWS', 'Amazon S3', 'Cloud Computing']
   },
   {
-    id: 'exp2',
-    company: 'Innovate Tech Labs',
-    role: 'Java Developer Intern',
-    location: 'Hybrid',
-    duration: 'Jan 2024 – Jun 2024',
+    id: 'exp-aicte-ai',
+    company: 'AICTE Eduskills',
+    role: 'AI Intern',
+    program: 'Microsoft & SAP AI Internship',
+    mode: 'Remote',
+    duration: 'Oct 2024 – Dec 2024',
     description: [
-      'Built backend modules for a high-traffic web application using Spring Boot and Hibernate JPA.',
-      'Optimized database queries and schemas in MySQL, reducing read latencies by 30%.',
-      'Participated in daily standups and agile development cycles, contributing to core features delivery.'
+      'Worked on Artificial Intelligence concepts and real-world applications under the Microsoft & SAP AI program.',
+      'Explored Machine Learning fundamentals including supervised and unsupervised learning techniques.',
+      'Built practical AI-based solutions and mini-projects throughout the internship.',
+      'Strengthened analytical thinking and problem-solving skills through hands-on AI exercises.'
     ],
-    technologies: ['Java', 'Spring Boot', 'Hibernate', 'MySQL', 'Git']
+    technologies: ['Artificial Intelligence', 'Machine Learning', 'Python']
   }
 ]

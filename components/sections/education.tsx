@@ -6,7 +6,7 @@ import { GlassCard } from '@/components/ui/cards/glass-card'
 import { Button } from '@/components/ui/buttons/button'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
 import { education } from '@/data/education'
-import { GraduationCap, Calendar, Award } from 'lucide-react'
+import { GraduationCap, Calendar, Award, Building2, Star } from 'lucide-react'
 import Link from 'next/link'
 
 const certPreviews = [
@@ -24,7 +24,7 @@ export const Education: React.FC = () => {
       id="education"
       title="Education & Credentials"
       subtitle="Academic Timeline"
-      className="py-20 border-t border-border/30 bg-muted/5"
+      className="py-20 border-t border-border/30 section-alt"
     >
       {/* Education Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 text-left">
@@ -32,6 +32,7 @@ export const Education: React.FC = () => {
           <ScrollReveal key={item.id} variant="fade-up" delay={idx * 0.1}>
             <GlassCard glow className="p-6 flex flex-col justify-between h-full hover:border-emerald-500/10 transition-colors">
               <div>
+                {/* Degree Type Header */}
                 <div className="flex items-center justify-between border-b border-border/40 pb-3">
                   <div className="flex items-center space-x-2.5">
                     <GraduationCap className="h-5 w-5 text-emerald-500 shrink-0" />
@@ -39,21 +40,45 @@ export const Education: React.FC = () => {
                       {item.degree.split(' in ')[0]}
                     </h4>
                   </div>
+                  {/* CGPA Badge — only when showCgpa is true */}
+                  {item.showCgpa && item.cgpa && (
+                    <div className="flex items-center space-x-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-2.5 py-1">
+                      <Star className="h-3 w-3 text-emerald-400" />
+                      <span className="text-[10px] font-bold font-mono text-emerald-400">{item.cgpa}</span>
+                    </div>
+                  )}
                 </div>
 
-                <div className="mt-4 space-y-1">
+                <div className="mt-4 space-y-1.5">
+                  {/* Institution name */}
                   <h3 className="text-base font-extrabold text-foreground tracking-tight">
                     {item.institution}
                   </h3>
+
+                  {/* Affiliating university or board */}
+                  {(item.university || item.board) && (
+                    <div className="flex items-start space-x-1.5 text-[10px] text-muted-foreground/50 font-mono">
+                      <Building2 className="h-3 w-3 shrink-0 mt-0.5" />
+                      <span>{item.university ?? item.board}</span>
+                    </div>
+                  )}
+
+                  {/* Full degree name */}
                   <p className="text-xs text-muted-foreground/60 font-semibold font-mono">
                     {item.degree}
                   </p>
-                  <div className="flex items-center space-x-1.5 text-[10px] text-muted-foreground/50 font-mono pt-1">
+
+                  {/* Duration */}
+                  <div className="flex items-center space-x-1.5 text-[10px] text-muted-foreground/50 font-mono pt-0.5">
                     <Calendar className="h-3.5 w-3.5" />
                     <span>{item.duration}</span>
+                    {!item.showCgpa && idx === 0 && (
+                      <span className="ml-1 text-emerald-500/70 font-bold">(Pursuing)</span>
+                    )}
                   </div>
                 </div>
 
+                {/* Coursework / Subjects list */}
                 <ul className="mt-5 space-y-2 list-disc pl-4 text-xs font-light text-muted-foreground leading-relaxed">
                   {item.details?.map((detail: string, i: number) => (
                     <li key={i}>{detail}</li>
@@ -62,7 +87,7 @@ export const Education: React.FC = () => {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border/40 text-[9px] font-mono text-muted-foreground/40 text-center uppercase tracking-wider font-bold">
-                Completed Coursework Verified
+                {item.showCgpa ? 'Completed · CGPA Verified' : 'Currently Pursuing'}
               </div>
             </GlassCard>
           </ScrollReveal>

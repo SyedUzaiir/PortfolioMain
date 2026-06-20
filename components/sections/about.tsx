@@ -15,13 +15,25 @@ const timelineItems = [
     title: 'Diploma in Computer Science',
     subtitle: 'Foundation & Core Concepts',
     duration: '2021 – 2024',
-    description: 'Built a solid foundation in programming languages, databases, Object-Oriented Programming (OOP), and computer systems fundamentals.'
+    description: 'Built a solid foundation in programming languages, databases, Object-Oriented Programming (OOP), and computer systems fundamentals. Graduated with a CGPA of 9.44 / 10.'
   },
   {
     title: 'Bachelor of Technology (CSE)',
     subtitle: 'Pursuing Degree',
     duration: '2024 – 2027',
-    description: 'Currently pursuing a B.Tech in Computer Science & Engineering. Academic focus areas include Data Structures & Algorithms, Full Stack Development, Java Backend development, Database Systems, Software Engineering, and Artificial Intelligence.'
+    description: 'Currently pursuing a B.Tech in Computer Science & Engineering at Vardhaman College of Engineering (JNTUH). Academic focus areas include Data Structures & Algorithms, Full Stack Development, Java Backend, Database Systems, Software Engineering, and Artificial Intelligence.'
+  },
+  {
+    title: 'AWS Cloud Computing Training',
+    subtitle: 'On-site Training · SV Global Services Pvt. Ltd.',
+    duration: 'Jun 2024 – Jul 2024',
+    description: 'Completed hands-on training in AWS Cloud Computing, working with core services including Amazon S3. Gained practical experience in cloud infrastructure, deployment fundamentals, and cloud architecture concepts.'
+  },
+  {
+    title: 'AI Internship – AICTE Eduskills',
+    subtitle: 'Remote Internship · Microsoft & SAP AI Program',
+    duration: 'Oct 2024 – Dec 2024',
+    description: 'Completed a virtual internship under the AICTE Eduskills Microsoft & SAP AI program. Worked on Artificial Intelligence concepts, explored Machine Learning fundamentals, and built practical AI-based projects.'
   },
   {
     title: 'Full Stack Projects & Continuous Learning',
@@ -39,7 +51,7 @@ const timelineItems = [
 
 export const About: React.FC = () => {
   return (
-    <Section id="about" title="About Me" subtitle="Biography" className="py-20 border-t border-border/30 bg-muted/5">
+    <Section id="about" title="About Me" subtitle="Biography" className="py-20 border-t border-border/30 section-alt">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8 items-start">
         {/* Left Column Story */}
         <div className="space-y-6 lg:col-span-7 text-left">

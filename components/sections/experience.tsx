@@ -7,11 +7,11 @@ import { TechBadge } from '@/components/ui/shared/tech-badge'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
 import { experience } from '@/data/experience'
 import { useScroll, motion, useTransform } from 'framer-motion'
-import { Briefcase, Calendar, MapPin } from 'lucide-react'
+import { Briefcase, Calendar, MapPin, Layers } from 'lucide-react'
 
 export const Experience: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   // Track scroll position over the experience container
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -24,7 +24,7 @@ export const Experience: React.FC = () => {
   return (
     <Section
       id="experience"
-      title="Professional Experience"
+      title="Professional Experience & Training"
       subtitle="Career Journey"
       className="py-20 border-t border-border/30"
     >
@@ -40,7 +40,7 @@ export const Experience: React.FC = () => {
         <div className="space-y-12">
           {experience.map((item, idx) => {
             const isLeft = idx % 2 === 0
-            
+
             return (
               <div
                 key={item.id}
@@ -53,30 +53,41 @@ export const Experience: React.FC = () => {
 
                 {/* Content Panel */}
                 <div className={`w-full pl-10 md:pl-0 md:w-[46%] ${isLeft ? 'md:pr-10' : 'md:pl-10'}`}>
-                  <ScrollReveal variant={isLeft ? 'blur' : 'blur'} delay={idx * 0.1}>
+                  <ScrollReveal variant="blur" delay={idx * 0.1}>
                     <GlassCard glow className="p-6 hover:border-emerald-500/10 transition-colors">
+                      {/* Role label */}
                       <div className="flex items-center space-x-2 text-emerald-400 font-mono text-[10px] font-bold uppercase tracking-wider">
                         <Briefcase className="h-3 w-3" />
-                        <span>{item.role.split(' (')[0]}</span>
+                        <span>{item.role}</span>
                       </div>
 
+                      {/* Company */}
                       <h4 className="text-lg font-bold text-foreground mt-2 tracking-tight">
                         {item.company}
                       </h4>
-                      <p className="text-xs text-muted-foreground/60 font-medium italic mt-0.5">
-                        {item.role}
-                      </p>
 
-                      {/* Vitals */}
+                      {/* Program name (if any) */}
+                      {item.program && (
+                        <div className="flex items-center space-x-1.5 mt-1">
+                          <Layers className="h-3 w-3 text-muted-foreground/40 shrink-0" />
+                          <p className="text-[10px] text-muted-foreground/50 font-mono italic">
+                            {item.program}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Vitals — duration & mode */}
                       <div className="mt-3 flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground/50 font-mono">
                         <span className="flex items-center space-x-1">
                           <Calendar className="h-3.5 w-3.5 shrink-0" />
                           <span>{item.duration}</span>
                         </span>
-                        <span className="flex items-center space-x-1">
-                          <MapPin className="h-3.5 w-3.5 shrink-0" />
-                          <span>{item.location}</span>
-                        </span>
+                        {(item.mode ?? item.location) && (
+                          <span className="flex items-center space-x-1">
+                            <MapPin className="h-3.5 w-3.5 shrink-0" />
+                            <span>{item.mode ?? item.location}</span>
+                          </span>
+                        )}
                       </div>
 
                       {/* Bullet points details */}
