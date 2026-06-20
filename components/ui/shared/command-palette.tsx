@@ -166,9 +166,9 @@ export const CommandPalette: React.FC = () => {
     if (isOpen) {
       const frame = requestAnimationFrame(() => {
         inputRef.current?.focus()
+        setSearch('')
+        setSelectedIndex(0)
       })
-      setSearch('')
-      setSelectedIndex(0)
       return () => cancelAnimationFrame(frame)
     }
   }, [isOpen])

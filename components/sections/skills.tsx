@@ -6,7 +6,7 @@ import { GlassCard } from '@/components/ui/cards/glass-card'
 import { ProgressBar } from '@/components/ui/shared/progress-bar'
 import { TechBadge } from '@/components/ui/shared/tech-badge'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
-import { Star, ChevronRight, HelpCircle } from 'lucide-react'
+import { Star, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface LanguageDetail {

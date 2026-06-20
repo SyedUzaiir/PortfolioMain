@@ -3,7 +3,6 @@
 import React from 'react'
 import { Section } from '@/components/layout/section'
 import { GlassCard } from '@/components/ui/cards/glass-card'
-import { TechBadge } from '@/components/ui/shared/tech-badge'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
 
 const stackItems = [

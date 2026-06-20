@@ -7,7 +7,7 @@ import { ProgressBar } from '@/components/ui/shared/progress-bar'
 import { AnimatedCounter } from '@/components/ui/shared/animated-counter'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
 import { getGitHubStats, getLeetCodeStats, GitHubStats, LeetCodeStats } from '@/lib/services/api'
-import { Award, Code2, BookOpen, Star, RefreshCw } from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 
 const GithubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
@@ -154,12 +154,12 @@ export const Dashboard: React.FC = () => {
                   <h4 className="text-sm font-bold text-foreground">LeetCode</h4>
                 </div>
                 <a
-                  href="https://leetcode.com/syeduzair"
+                  href="https://leetcode.com/uzairmohiuddin"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[10px] font-mono text-emerald-500 hover:underline"
                 >
-                  @syeduzair
+                  @uzairmohiuddin
                 </a>
               </div>
 
@@ -204,7 +204,7 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <a
-              href="https://leetcode.com/syeduzair"
+              href="https://leetcode.com/uzairmohiuddin/"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex h-9 w-full items-center justify-center rounded-button border border-border bg-card text-[10px] font-bold tracking-widest uppercase text-muted-foreground transition-all hover:bg-muted hover:text-foreground cursor-pointer"
@@ -301,7 +301,7 @@ export const Dashboard: React.FC = () => {
                   rel="noopener noreferrer"
                   className="text-[10px] font-mono text-emerald-500 hover:underline"
                 >
-                  @uzair_code
+                  @uzair_777
                 </a>
               </div>
 
@@ -337,7 +337,7 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <a
-              href="https://codechef.com"
+              href="https://www.codechef.com/users/uzair_777"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex h-9 w-full items-center justify-center rounded-button border border-border bg-card text-[10px] font-bold tracking-widest uppercase text-muted-foreground transition-all hover:bg-muted hover:text-foreground cursor-pointer"

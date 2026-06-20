@@ -7,7 +7,7 @@ import { TimelineCard } from '@/components/ui/cards/timeline-card'
 import { Button } from '@/components/ui/buttons/button'
 import { SocialButton } from '@/components/ui/buttons/social-button'
 import { ScrollReveal } from '@/components/motion/scroll-reveal'
-import { MapPin, GraduationCap, Briefcase, Mail } from 'lucide-react'
+import { MapPin, GraduationCap, Briefcase } from 'lucide-react'
 import Link from 'next/link'
 
 const timelineItems = [
