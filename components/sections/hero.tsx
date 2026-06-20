@@ -11,10 +11,10 @@ import { ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 
 const roles = [
-  'Software Engineer',
-  'Java Backend Developer',
   'Full Stack Developer',
-  'AI Enthusiast'
+  'Software Engineer',
+  'Full Stack Software Engineer',
+  'Problem Solver'
 ]
 
 export const Hero: React.FC = () => {
@@ -143,7 +143,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="max-w-xl text-base font-light leading-relaxed text-muted-foreground sm:text-lg"
           >
-            Building high-performance Java backend architectures, secure distributed enterprise systems, and interactive full-stack applications.
+            Building complete end-to-end web applications, interactive user interfaces, secure databases, APIs, and exploring AI integrations with scalable architecture.
           </motion.p>
 
           {/* Quick Stats Grid */}
@@ -179,10 +179,10 @@ export const Hero: React.FC = () => {
             </div>
             <div className="text-left">
               <p className="text-2xl font-black text-foreground">
-                <AnimatedCounter value={3} suffix="+" />
+                <AnimatedCounter value={5} suffix="+" />
               </p>
               <p className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground/50 uppercase mt-0.5">
-                Internships
+                Core Languages
               </p>
             </div>
           </motion.div>
@@ -234,10 +234,10 @@ export const Hero: React.FC = () => {
             <div className="mt-4 space-y-2.5 font-mono text-[10px] text-emerald-400/80 leading-relaxed">
               <p className="text-muted-foreground/50">&gt; neofetch --profile</p>
               <p><span className="text-teal-400">OS:</span> SyedUzairOS v3.0</p>
-              <p><span className="text-teal-400">Host:</span> Software Engineer</p>
-              <p><span className="text-teal-400">Kernel:</span> Java VM & Next.js Engine</p>
-              <p><span className="text-teal-400">Shell:</span> Spring Boot / PostgreSQL / Docker</p>
-              <p><span className="text-teal-400">Status:</span> Coding placement preparation...</p>
+              <p><span className="text-teal-400">Host:</span> Full Stack Developer</p>
+              <p><span className="text-teal-400">Kernel:</span> React / Next.js / Java / SQL</p>
+              <p><span className="text-teal-400">Shell:</span> TypeScript & Spring Boot Engine</p>
+              <p><span className="text-teal-400">Status:</span> Preparing for software engineering placements...</p>
               <div className="mt-6 flex space-x-1 items-center">
                 <span className="h-3 w-1.5 bg-emerald-400 animate-pulse" />
                 <span className="text-muted-foreground/40 text-[9px]">Initializing system components...</span>

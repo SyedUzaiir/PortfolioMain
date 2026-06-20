@@ -24,11 +24,6 @@ export const EducationCard: React.FC<EducationCardProps> = ({ education }) => {
           <span className="font-mono text-[10px] font-bold text-muted-foreground/60 border border-border/80 px-2 py-0.5 rounded-full bg-card/50">
             {education.duration}
           </span>
-          {education.cgpa && (
-            <p className="text-xs text-muted-foreground/60 font-semibold font-mono">
-              CGPA: {education.cgpa}
-            </p>
-          )}
         </div>
       </div>
 

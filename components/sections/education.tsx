@@ -39,9 +39,6 @@ export const Education: React.FC = () => {
                       {item.degree.split(' in ')[0]}
                     </h4>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/5 border border-emerald-500/15 px-2 py-0.5 rounded uppercase">
-                    CGPA: {item.cgpa}
-                  </span>
                 </div>
 
                 <div className="mt-4 space-y-1">
