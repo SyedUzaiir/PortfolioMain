@@ -19,6 +19,8 @@ const roles = [
 
 export const Hero: React.FC = () => {
   const [roleIndex, setRoleIndex] = useState(0)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -27,15 +29,72 @@ export const Hero: React.FC = () => {
     return () => clearInterval(timer)
   }, [])
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    })
+  }
+
   return (
-    <section id="hero" className="relative flex min-h-[96vh] w-full items-center justify-center overflow-hidden pt-24 pb-16">
-      {/* Premium Aurora Background */}
+    <section
+      id="hero"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex min-h-[96vh] w-full items-center justify-center overflow-hidden pt-24 pb-16"
+    >
+      {/* 1. Premium Aurora Background & Noise */}
       <GlowBackground />
-      <div className="absolute inset-0 bg-radial-gradient from-emerald-500/5 via-transparent to-transparent pointer-events-none -z-10 blur-[100px] -top-40" />
+
+      {/* 2. Slow-moving cursor tracking Spotlight (Desktop only) */}
+      {isHovered && (
+        <div
+          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 hidden md:block"
+          style={{
+            background: `radial-gradient(500px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(16, 185, 129, 0.05), transparent 80%)`
+          }}
+        />
+      )}
+
+      {/* 3. Horizontal Visual Glow Capsule connecting Left and Right Columns */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[300px] rounded-full bg-emerald-500/[0.04] blur-[150px] pointer-events-none -z-10" />
+
+      {/* 4. Drifting Thin Outlined Geometry (○, □, △) */}
+      <motion.svg
+        animate={{ y: [0, -10, 0], rotate: 360 }}
+        transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+        className="absolute left-[8%] top-[22%] h-12 w-12 text-foreground/5 opacity-5 pointer-events-none"
+        viewBox="0 0 100 100"
+      >
+        <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="1" />
+      </motion.svg>
+
+      <motion.svg
+        animate={{ y: [0, 10, 0], x: [0, 8, 0], rotate: -360 }}
+        transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}
+        className="absolute right-[12%] top-[18%] h-14 w-14 text-foreground/5 opacity-5 pointer-events-none"
+        viewBox="0 0 100 100"
+      >
+        <rect x="10" y="10" width="80" height="80" fill="none" stroke="currentColor" strokeWidth="1" />
+      </motion.svg>
+
+      <motion.svg
+        animate={{ y: [0, -8, 0], x: [-6, 6, -6], rotate: 180 }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        className="absolute left-[38%] bottom-[15%] h-10 w-10 text-foreground/5 opacity-5 pointer-events-none"
+        viewBox="0 0 100 100"
+      >
+        <polygon points="50,15 90,85 10,85" fill="none" stroke="currentColor" strokeWidth="1" />
+      </motion.svg>
 
       <Container className="relative z-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
         {/* Left Column Content */}
-        <div className="flex flex-col space-y-6 lg:col-span-7">
+        <div className="flex flex-col space-y-6 lg:col-span-7 relative">
+          {/* Large Blurred Glow behind name */}
+          <div className="absolute -left-20 top-0 h-[500px] w-[500px] rounded-full bg-emerald-500/[0.05] dark:bg-emerald-500/[0.04] blur-[150px] pointer-events-none -z-10" />
+
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -96,7 +155,7 @@ export const Hero: React.FC = () => {
           >
             <div className="text-left">
               <p className="text-2xl font-black text-foreground">
-                <AnimatedCounter value={300} suffix="+" />
+                <AnimatedCounter value={840} suffix="+" />
               </p>
               <p className="text-[10px] font-mono font-bold tracking-wider text-muted-foreground/50 uppercase mt-0.5">
                 Problems Solved
@@ -153,13 +212,16 @@ export const Hero: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Right Column Illustration */}
+        {/* Right Column Illustration - Workstation mockup */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="relative hidden items-center justify-center lg:col-span-5 lg:flex"
         >
+          {/* Soft Emerald Glow behind terminal */}
+          <div className="absolute -inset-4 bg-emerald-500/10 dark:bg-emerald-500/[0.07] rounded-card blur-[80px] -z-10 pointer-events-none" />
+
           {/* Workstation Frame mockup */}
           <div className="relative w-full max-w-[400px] aspect-[4/3] rounded-card border border-border/80 bg-card/40 p-3 shadow-2xl backdrop-blur-md overflow-hidden">
             <div className="flex items-center space-x-1.5 border-b border-border/60 pb-2">
@@ -183,47 +245,50 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Floating tech badges */}
+          {/* Integrated Tech Satellite Badges around the Terminal composition */}
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-            className="absolute -top-6 -left-6 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 text-[10px] font-mono font-bold text-emerald-400 backdrop-blur-md"
+            animate={{ y: [0, -6, 0] }}
+            transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut' }}
+            className="absolute -top-5 -left-4 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[9px] font-mono font-bold text-emerald-400 backdrop-blur-md shadow-sm"
           >
             ☕ Java SE
           </motion.div>
 
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
-            className="absolute -bottom-6 -right-4 rounded-lg border border-teal-500/20 bg-teal-500/5 px-3 py-1.5 text-[10px] font-mono font-bold text-teal-400 backdrop-blur-md"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 5.2, ease: 'easeInOut' }}
+            className="absolute -bottom-5 -right-2 rounded-lg border border-teal-500/20 bg-teal-500/5 px-2.5 py-1 text-[9px] font-mono font-bold text-teal-400 backdrop-blur-md shadow-sm"
           >
             🍃 Spring Boot
           </motion.div>
 
           <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ repeat: Infinity, duration: 3.8, ease: 'easeInOut' }}
-            className="absolute top-1/2 -right-8 rounded-lg border border-blue-500/20 bg-blue-500/5 px-3 py-1.5 text-[10px] font-mono font-bold text-blue-400 backdrop-blur-md"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
+            className="absolute top-[40%] -right-6 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-[9px] font-mono font-bold text-blue-400 backdrop-blur-md shadow-sm"
           >
             ⚛️ React / Next
           </motion.div>
 
           <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
-            className="absolute bottom-1/2 -left-10 rounded-lg border border-sky-500/20 bg-sky-500/5 px-3 py-1.5 text-[10px] font-mono font-bold text-sky-400 backdrop-blur-md"
+            animate={{ y: [0, 7, 0] }}
+            transition={{ repeat: Infinity, duration: 5.5, ease: 'easeInOut' }}
+            className="absolute bottom-[40%] -left-8 rounded-lg border border-sky-500/20 bg-sky-500/5 px-2.5 py-1 text-[9px] font-mono font-bold text-sky-400 backdrop-blur-md shadow-sm"
           >
             🐳 Docker
           </motion.div>
         </motion.div>
       </Container>
 
+      {/* 5. Gradient Bottom Section Fade Divider */}
+      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none z-10" />
+
       {/* Minimal Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 0.5, y: 0 }}
         transition={{ delay: 1, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-1.5 cursor-pointer text-muted-foreground/60 hover:text-foreground hover:opacity-100 transition-all"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-1.5 cursor-pointer text-muted-foreground/60 hover:text-foreground hover:opacity-100 transition-all z-20"
         onClick={() => {
           document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
         }}

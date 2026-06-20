@@ -134,3 +134,36 @@
     @apply font-sans;
   }
 }
+
+/* Premium Motion Animations */
+@keyframes aurora-orbit-1 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(8vw, 4vh) scale(1.15);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes aurora-orbit-2 {
+  0% {
+    transform: translate(0px, 0px) scale(1.1);
+  }
+  50% {
+    transform: translate(-6vw, -5vh) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1.1);
+  }
+}
+
+.animate-aurora-1 {
+  animation: aurora-orbit-1 25s infinite ease-in-out;
+}
+
+.animate-aurora-2 {
+  animation: aurora-orbit-2 30s infinite ease-in-out;
+}
