@@ -9,6 +9,9 @@ import { Projects } from '@/components/sections/projects'
 import { Dashboard } from '@/components/sections/dashboard'
 import { Experience } from '@/components/sections/experience'
 import { Education } from '@/components/sections/education'
+import { Certifications } from '@/components/sections/certifications'
+import { Achievements } from '@/components/sections/achievements'
+import { Contact } from '@/components/sections/contact'
 
 export default function Home() {
   return (
@@ -21,6 +24,9 @@ export default function Home() {
       <Dashboard />
       <Experience />
       <Education />
+      <Certifications />
+      <Achievements />
+      <Contact />
     </div>
   )
 }
