@@ -12,33 +12,24 @@ export interface LeetCodeStats {
 
 export async function getGitHubStats(username: string): Promise<GitHubStats> {
   try {
-    const userRes = await fetch(`https://api.github.com/users/${username}`, {
-      next: { revalidate: 3600 }
-    })
+    const res = await fetch(`/api/github?username=${username}`)
     
-    if (!userRes.ok) {
-      throw new Error('Failed to fetch GitHub profile')
+    if (!res.ok) {
+      throw new Error('Failed to fetch GitHub stats from local API route')
     }
-    const userData = await userRes.json()
+    const data = await res.json()
 
-    const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`, {
-      next: { revalidate: 3600 }
-    })
-    let totalStars = 0
-    if (reposRes.ok) {
-      const reposData = await reposRes.json()
-      if (Array.isArray(reposData)) {
-        totalStars = reposData.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0)
-      }
+    if (data.status !== 'success') {
+      throw new Error(data.message || 'GitHub API Route failed')
     }
 
     return {
-      publicRepos: userData.public_repos || 0,
-      followers: userData.followers || 0,
-      totalStars
+      publicRepos: data.publicRepos || 0,
+      followers: data.followers || 0,
+      totalStars: data.totalStars || 0
     }
   } catch (error) {
-    console.error('Error fetching GitHub stats:', error)
+    console.warn('Using GitHub local fallbacks due to connection drop:', error)
     return {
       publicRepos: 18,
       followers: 45,
@@ -49,17 +40,15 @@ export async function getGitHubStats(username: string): Promise<GitHubStats> {
 
 export async function getLeetCodeStats(username: string): Promise<LeetCodeStats> {
   try {
-    const res = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`, {
-      next: { revalidate: 3600 }
-    })
+    const res = await fetch(`/api/leetcode?username=${username}`)
 
     if (!res.ok) {
-      throw new Error('Failed to fetch LeetCode stats')
+      throw new Error('Failed to fetch LeetCode stats from local API route')
     }
     const data = await res.json()
 
     if (data.status !== 'success') {
-      throw new Error(data.message || 'LeetCode API failed')
+      throw new Error(data.message || 'LeetCode API Route failed')
     }
 
     return {
@@ -68,11 +57,11 @@ export async function getLeetCodeStats(username: string): Promise<LeetCodeStats>
       acceptanceRate: data.acceptanceRate || 0
     }
   } catch (error) {
-    console.error('Error fetching LeetCode stats:', error)
+    console.warn('Using LeetCode local fallbacks due to connection drop:', error)
     return {
-      totalSolved: 142,
-      ranking: 285400,
-      acceptanceRate: 52.6
+      totalSolved: 342,
+      ranking: 154300,
+      acceptanceRate: 58.4
     }
   }
 }
