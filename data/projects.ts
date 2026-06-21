@@ -34,7 +34,7 @@ export const projects: Project[] = [
     status: 'completed',
     techStack: ['React', 'Tailwind CSS', 'Recharts', 'Express', 'Node.js', 'FastAPI', 'Python', 'spaCy', 'MongoDB Atlas'],
     featured: true,
-    year: '2025',
+    year: '2026',
     category: 'NLP / Full Stack',
     problemSolved: 'Non-technical stakeholders frequently rely on developers to fetch basic metrics or build database queries. LuminaDB allows users to query databases using plain English without needing technical MQL knowledge or paid API keys.',
     keyFeatures: [
@@ -73,7 +73,7 @@ export const projects: Project[] = [
       'Railway'
     ],
     featured: true,
-    year: '2024',
+    year: '2026',
     category: 'ML / Healthcare',
     problemSolved: 'Clinicians face cognitive overload sorting through numerous patient variables and real-time expressions, risking delayed or incomplete interventions for critical patients.',
     keyFeatures: [
