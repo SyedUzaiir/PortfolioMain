@@ -38,7 +38,7 @@ export const Navbar: React.FC = () => {
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 sm:px-8 md:px-10 lg:px-12">
         {/* Elegant Monogram Logo */}
         <Link href="/" className="font-mono text-xl font-bold tracking-widest text-foreground hover:opacity-80 transition-opacity">
-          SU
+          UZAIR
         </Link>
 
         {/* Desktop Nav Links */}

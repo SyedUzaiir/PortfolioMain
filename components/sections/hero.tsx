@@ -13,21 +13,50 @@ import Link from 'next/link'
 const roles = [
   'Full Stack Developer',
   'Software Engineer',
-  'Full Stack Software Engineer',
+  'Java Backend Developer',
   'Problem Solver'
 ]
 
 export const Hero: React.FC = () => {
-  const [roleIndex, setRoleIndex] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovered, setIsHovered] = useState(false)
+  const [text, setText] = useState('')
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setRoleIndex((prev) => (prev + 1) % roles.length)
-    }, 4000)
-    return () => clearInterval(timer)
-  }, [])
+    const role = roles[currentRoleIndex]
+    let speed = 80 //snappy, consistent typing
+
+    if (isDeleting) {
+      speed = 30 //fast backspace
+    }
+
+    if (!isDeleting && text === role) {
+      speed = 2000 //pause on full word
+    } else if (isDeleting && text === '') {
+      speed = 500 //pause before next word
+    }
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        if (text === role) {
+          setIsDeleting(true)
+        } else {
+          setText(role.substring(0, text.length + 1))
+        }
+      } else {
+        if (text === '') {
+          setIsDeleting(false)
+          setCurrentRoleIndex((prev) => (prev + 1) % roles.length)
+        } else {
+          setText(role.substring(0, text.length - 1))
+        }
+      }
+    }, speed)
+
+    return () => clearTimeout(timer)
+  }, [text, isDeleting, currentRoleIndex])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -122,20 +151,12 @@ export const Hero: React.FC = () => {
               </span>
             </motion.h1>
 
-            {/* Smooth Text Rotation Loop */}
-            <div className="h-10 sm:h-12 overflow-hidden flex items-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={roleIndex}
-                  initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -15, filter: 'blur(4px)' }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-xl font-bold tracking-tight text-muted-foreground/80 sm:text-2xl md:text-3xl"
-                >
-                  {roles[roleIndex]}
-                </motion.div>
-              </AnimatePresence>
+            {/* Typewriter Text Rotation Loop */}
+            <div className="h-10 sm:h-12 flex items-center">
+              <span className="text-xl font-bold tracking-tight text-muted-foreground/80 sm:text-2xl md:text-3xl font-mono">
+                {text}
+              </span>
+              <span className="inline-block w-[0.55em] h-[1.4em] ml-2 bg-emerald-500 rounded-none animate-pulse align-middle" />
             </div>
           </div>
 

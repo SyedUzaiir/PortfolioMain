@@ -89,12 +89,7 @@ export default function ResumePage() {
           </div>
         </ScrollReveal>
 
-        {/* Footer note */}
-        <ScrollReveal variant="fade-up" delay={0.25}>
-          <p className="text-[11px] font-mono text-muted-foreground/40 text-center">
-            PDF served from <code className="text-emerald-500">/public</code> — works on Vercel production without any API or server config.
-          </p>
-        </ScrollReveal>
+
       </div>
     </Section>
   )

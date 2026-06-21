@@ -39,14 +39,14 @@ export const LoadingScreen: React.FC = () => {
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#09090b]"
         >
           <div className="flex flex-col items-center space-y-6">
-            {/* Elegant Monogram SU */}
+            {/* Elegant Monogram UZAIR */}
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="font-mono text-5xl font-bold tracking-widest text-[#fafafa]"
             >
-              SU
+              UZAIR
             </motion.div>
 
             {/* Subtle Loading Text */}
