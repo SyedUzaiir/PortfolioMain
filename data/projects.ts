@@ -50,24 +50,45 @@ export const projects: Project[] = [
   {
     id: 'biosense-ai',
     title: 'BioSense AI Clinical Platform',
-    description: 'A clinical decision support platform evaluating patient vitals and generating structured risk indicators for medical teams.',
-    image: '/projects/ai-doc.png',
-    github: 'https://github.com/SyedUzaiir/BioSense-AI',
+    description: 'A multi-modal health risk assessment platform combining metabolic biomarkers, explainable machine learning, and real-time emotion analysis for clinical intelligence.',
+    image: '/projects/biosense.png',
+    github: 'https://github.com/SyedUzaiir/biosense-ai',
+    live: 'https://biosenseai.vercel.app/',
     status: 'completed',
-    techStack: ['Python', 'FastAPI', 'React', 'TensorFlow', 'scikit-learn', 'Tailwind CSS'],
+    techStack: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Tailwind CSS',
+      'Framer Motion',
+      'Recharts',
+      'FastAPI',
+      'Python',
+      'Scikit-Learn',
+      'SHAP',
+      'OpenCV',
+      'FER',
+      'MongoDB',
+      'Vercel',
+      'Railway'
+    ],
     featured: true,
     year: '2024',
     category: 'ML / Healthcare',
-    problemSolved: 'Clinicians face cognitive overload sorting through numerous patient variables, risking delayed interventions for critical patients.',
+    problemSolved: 'Clinicians face cognitive overload sorting through numerous patient variables and real-time expressions, risking delayed or incomplete interventions for critical patients.',
     keyFeatures: [
-      'Real-time vitals streams monitoring panel',
-      'Dynamic risk grading (High, At Risk, Stable) utilizing classification models',
-      'Confidence levels output for AI clinical predictions',
-      'Exportable medical summary files'
+      'Multimodal Inference Integration: Clinical fusion algorithm syncing physiological data vectors with real-time facial expressions to output joint diagnostic recommendations.',
+      '95% Predictive Accuracy: Bagged classifier ensembles (RandomForest + SVC Calibrated Pipeline) trained for early-stage diabetes risk stratification.',
+      'Explainable AI (XAI) Implementation: Local feature impact calculation via SHAP and KNNImputer, dynamically rendering waterfall plots for clinicians.',
+      '24h Trajectory Interpolation: Monotonic cubic spline algorithms (PchipInterpolator) configured to model projected glucose curves.',
+      'Secure API Core: Asynchronous FastAPI endpoints built for sub-500ms model inference with environment CORS configurations.'
     ],
-    architecture: 'FastAPI powers the ML inference endpoints, TensorFlow handles vitals grading predictions, and a React UI renders clinical grids.',
-    challenges: 'Handling noisy vitals streams. Implemented a Kalman filter smoothing preprocess pipeline to eliminate false alert anomalies.',
-    futureImprovements: ['Add wearable devices API feeds integration', 'Deploy on HIPAA-compliant cloud server stacks']
+    architecture: 'FastAPI backend processes ML/CV pipelines and manages MongoDB data models, while a Next.js (App Router) frontend handles real-time charts, facial expression overlays, and patient risk dashboards.',
+    challenges: 'Integrating high-frequency physiological data streams with real-time visual emotion recognition feeds while maintaining low-latency responses. Resolved by designing an asynchronous clinical fusion algorithm and sub-500ms execution threads.',
+    futureImprovements: [
+      'Integrate real-time wearable device telemetry API feeds',
+      'Implement federated learning schemas for localized hospital node model training'
+    ]
   },
   // {
   //   id: 'smart-street',
