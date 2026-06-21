@@ -89,7 +89,7 @@ export const Footer: React.FC = () => {
         {/* Profile Info block */}
         <div className="space-y-4">
           <div className="flex items-center space-x-2.5">
-            <span className="font-mono text-lg font-bold tracking-widest text-foreground">SU</span>
+            <span className="font-mono text-lg font-bold tracking-widest text-foreground">UZAIR</span>
             <span className="text-[9px] font-mono font-bold bg-zinc-900 border border-border/80 px-1.5 py-0.5 rounded text-muted-foreground/60">
               v3.0.0
             </span>
